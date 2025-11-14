@@ -1,0 +1,172 @@
+body {
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1100;
+}
+
+.headerWrap {
+  position: relative;
+  padding: 10px 20px;
+}
+.headerWrap h1 {
+  font-size: 20px;
+  color: #fff;
+}
+.title{
+  font-size: 100px;
+  margin-top: -30px;
+}
+.content{
+  font-size: 15px;
+  color: white;
+  margin: 10px;
+  margin-top: -px;
+  
+}
+
+
+.search-wrap {
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.search {
+  width: 1000px;
+  max-width: calc(100% - 40px);
+  background: rgba(255,255,255,0.12);
+  border-radius: 28px;
+  padding:10px 14px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  backdrop-filter: blur(4px);
+}
+.search input {
+  border: none;
+  outline: none;
+  flex:1;
+  font-size:14px;
+  color: #fff;
+  background: transparent;
+}
+.search .icon {
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  border: none;
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  font-size: 30px;
+  color: white;
+  animation: bounce 1.5s infinite;
+  /* cursor: pointer; */
+}
+
+/* @keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 10px); }
+} */
+
+
+
+
+.progressWrap {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgb(249, 246, 241);
+  display: none;
+}
+.bar {
+  width: 0%;
+  height: inherit;
+  position: absolute;
+  z-index: 100;
+  background-color: black;
+  transition: width 0.4s ease-out;
+}
+header.fixed {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.8);
+}
+header.fixed .progressWrap {
+  display: block;
+}
+header.fixed .headerWrap h1 {
+  color: #000;
+}
+
+.coverWrap {
+  position: relative; /* fixed 대신 relative, 그래야 스크롤 가능 */
+  top: 0;
+  width: 100%;
+  height: 100vh; /* 화면 전체 높이 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black url(bg.jpg) center center / cover no-repeat;
+}
+.dimd {
+  position: absolute;
+  width: 100%;
+  height: inherit;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.coverWrap:after {
+  /* 오버레이 효과를 위해 after 사용 */
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: inherit;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.coverTitle {
+  position: relative;
+  text-align: center;
+  z-index: 100;
+}
+.coverTitle h1 {
+  color: #fff;
+  line-height: 18px;
+}
+.coverTitle p {
+  color: #cecece;
+}
+
+.contWrap {
+  position: relative;
+  /* margin-top: 800px; */
+  z-index: 1000;
+  background-color: #fff;
+}
+.contentInnerWrap {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 30px;
+}
+h4 {
+  font-size: 20px;
+}
+
