@@ -1,5 +1,10 @@
+/**
+ * Page 1 - Main Page Script
+ * 메인 검색 페이지 로직
+ */
 
 ;(() => {
+  // DOM Elements
   const searchInput = document.getElementById("searchInput")
   const sendBtn = document.getElementById("sendBtn")
   const suggestionBtns = document.querySelectorAll(".suggestion-btn")
