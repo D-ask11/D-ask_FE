@@ -1,0 +1,134 @@
+:root {
+  /* Colors */
+  --color-primary: #2b3a67;
+  --color-primary-light: #3d4f7c;
+  --color-accent: #5b8dee;
+  --color-accent-light: #89b4fa;
+
+  /* Message Colors */
+  --color-user-bubble: #ffffff;
+  --color-ai-bubble: #b8d4f1;
+
+  /* Text Colors */
+  --color-text-dark: #1a1a2e;
+  --color-text-light: #ffffff;
+  --color-text-muted: #6b7280;
+  --color-placeholder: #9ca3af;
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+}
+
+/* Common Container */
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Logo Styles */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-accent-light);
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.logo-icon::before,
+.logo-icon::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  top: 8px;
+}
+
+.logo-icon::before {
+  right: 8px;
+}
+
+.logo-icon::after {
+  right: 18px;
+  width: 6px;
+  height: 6px;
+  top: 6px;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-accent-light);
+}
+
+/* Input Area Common */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-text-light);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-md) var(--spacing-lg);
+  gap: var(--spacing-sm);
+}
+
+.input-field {
+  flex: 1;
+  font-size: 1rem;
+  color: var(--color-text-dark);
+  background: transparent;
+}
+
+.input-field::placeholder {
+  color: var(--color-placeholder);
+}
+
+.send-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  transition: transform var(--transition-fast);
+}
+
+.send-btn:hover {
+  transform: scale(1.1);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.send-btn svg {
+  width: 24px;
+  height: 24px;
+}
