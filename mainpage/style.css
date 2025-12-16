@@ -1,27 +1,39 @@
 @import url(./reset.css);
 
-/* ===== Hero Section ===== */
+/* ===============================
+   COLOR PALETTE
+================================ */
+:root {
+  --primary-1: #203674;
+  --primary-2: #AFD5FF;
+  --primary-3: #DBEAFE;
+
+  --text-1: #111827;
+  --text-2: #4B5563;
+  --text-3: #DADCE2;
+
+  --text-w: #ffffff;
+}
+
+/* ===============================
+   HERO SECTION
+================================ */
 .hero-section {
   position: relative;
   width: 100%;
   height: 100vh;
   min-height: 600px;
-  background-color: var(--primary-dark);
+  background-color: var(--primary-1);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-/* 배경 이미지 - 전체 커버 */
+/* background */
 .hero-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  inset: 0;
   z-index: 1;
 }
 
@@ -31,17 +43,14 @@
   object-fit: cover;
 }
 
-/* Hero 콘텐츠 */
+/* content */
 .hero-content {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 20px;
-  width: 100%;
   max-width: 800px;
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
 }
 
 .logo-container {
@@ -50,68 +59,51 @@
 
 .main-logo {
   height: 80px;
-  width: auto;
 }
 
 .hero-title {
   font-size: 24px;
   font-weight: 700;
-  color: var(--white);
+  color: var(--text-w);
   margin-bottom: 12px;
-  line-height: 1.4;
 }
 
 .hero-subtitle {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-w);
+  opacity: 0.85;
   margin-bottom: 32px;
-  line-height: 1.6;
 }
 
-/* 검색창 */
+/* search */
 .search-box {
   display: flex;
   align-items: center;
-  width: 100%;
   max-width: 600px;
-  background-color: var(--white);
-  border-radius: 50px;
+  margin: 0 auto;
   padding: 12px 20px;
+  border-radius: 50px;
+  background-color: var(--text-w);
   cursor: pointer;
-  transition: box-shadow 0.2s ease;
-  background-color: white;
-}
-
-.search-box:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .search-box input {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 16px;
-  color: var(--text-light);
   background: transparent;
-  cursor: pointer;
-}
-
-.search-box input::placeholder {
-  color: var(--text-light);
+  font-size: 14px;
+  color: var(--text-1);
 }
 
 .search-btn {
-  background: none;
   border: none;
-  color: var(--text-dark);
+  background: none;
+  color: var(--text-1);
   cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* 스크롤 다운 버튼 */
+/* scroll down */
 .scroll-down-btn {
   position: absolute;
   bottom: 80px;
@@ -119,19 +111,13 @@
   transform: translateX(-50%);
   background: none;
   border: none;
-  color: var(--white);
+  color: var(--text-w);
   cursor: pointer;
-  padding: 8px;
-  z-index: 2;
   animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
+  0%, 20%, 50%, 80%, 100% {
     transform: translateX(-50%) translateY(0);
   }
   40% {
@@ -142,48 +128,41 @@
   }
 }
 
-/* 캘린더 버튼 - position: fixed로 우측 하단 고정 */
+/* ===============================
+   CALENDAR FLOAT BUTTON
+================================ */
 .calendar-btn {
   position: fixed;
-  bottom: 32px;
   right: 32px;
+  bottom: 32px;
   width: 60px;
   height: 60px;
-  background-color: var(--primary-dark);
+  border-radius: 50%;
   border: none;
-  border-radius: 50px;
-  color: var(--white);
+  background-color: var(--primary-2);
+  color: var(--primary-1);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 100;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.calendar-btn:hover {
-  background-color: var(--primary-darker);
-  transform: scale(1.05);
-}
-
-/* ===== Guide Section ===== */
+/* ===============================
+   GUIDE SECTION
+================================ */
 .guide-section {
-  position: relative;
-  background-color: var(--white);
+  background-color: var(--text-w);
   padding: 60px 20px 40px;
+  position: relative;
 }
 
-/* 상단 곡선 형태 */
 .guide-section::before {
   content: "";
   position: absolute;
-  top: -50px;
+  top: -40px;
   left: 0;
   width: 100%;
-  height: 60px;
-  background-color: var(--white);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  height: 40px;
+  background-color: var(--text-w);
+  border-radius: 50% 50% 0 0;
 }
 
 .guide-container {
@@ -191,37 +170,33 @@
   margin: 0 auto;
 }
 
-/* 탭 버튼들 */
+/* tabs */
 .tab-buttons {
   display: flex;
-  gap: 12px;
   justify-content: center;
+  gap: 12px;
   margin-bottom: 24px;
   flex-wrap: wrap;
 }
 
 .tab-btn {
   padding: 10px 20px;
-  border: none;
   border-radius: 20px;
+  border: none;
   font-size: 14px;
-  font-weight: 500;
+  background-color: var(--text-3);
+  color: var(--text-w);
   cursor: pointer;
-  transition: all 0.2s ease;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
 }
 
 .tab-btn.active {
-  background-color: var(--accent-coral);
-  color: var(--white);
+  background-color: var(--primary-2);
+  color: var(--primary-1);
 }
 
-.tab-btn:hover:not(.active) {
-  background-color: var(--bg-gray);
-}
-
-/* 슬라이더 */
+/* ===============================
+   SLIDER
+================================ */
 .slider-container {
   display: flex;
   align-items: center;
@@ -230,21 +205,12 @@
 }
 
 .slider-arrow {
-  flex-shrink: 0;
   width: 40px;
   height: 40px;
-  background: none;
   border: none;
-  color: var(--accent-coral);
+  background: none;
+  color: var(--primary-1);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s ease;
-}
-
-.slider-arrow:hover {
-  opacity: 0.7;
 }
 
 .slider-content {
@@ -259,29 +225,25 @@
 }
 
 .slide {
-  flex: 0 0 100%;
   min-width: 100%;
 }
 
-/* 슬라이드 내부 - 이미지 중심 구조 */
 .slide-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary-light);
+  background-color: var(--primary-3);
   border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  min-height: 200px;
 }
 
 .slide-img {
   width: 100%;
-  height: auto;
   max-height: 300px;
   object-fit: contain;
 }
 
-/* 슬라이더 페이지네이션 */
+/* pagination dots */
 .slider-pagination {
   display: flex;
   justify-content: center;
@@ -293,39 +255,33 @@
   width: 24px;
   height: 8px;
   border-radius: 4px;
-  background-color: var(--bg-gray);
+  background-color: var(--text-3);
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .dot.active {
-  background-color: var(--primary-dark);
   width: 32px;
+  background-color: var(--primary-1);
 }
 
-/* 캘린더 이동 버튼 */
+/* calendar link */
 .calendar-link-btn {
   display: block;
   margin: 0 auto;
   padding: 12px 32px;
-  background-color: var(--primary-dark);
-  color: var(--white);
   border: none;
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  background-color: var(--primary-1);
+  color: var(--text-w);
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.calendar-link-btn:hover {
-  background-color: var(--primary-darker);
-}
-
-/* ===== FAQ Section ===== */
+/* ===============================
+   FAQ SECTION
+================================ */
 .faq-section {
-  background-color: var(--white);
   padding: 20px 20px 60px;
+  background-color: var(--text-w);
 }
 
 .faq-container {
@@ -335,15 +291,14 @@
 
 .section-divider {
   height: 1px;
-  background-color: var(--border-color);
+  background-color: var(--text-3);
   margin-bottom: 32px;
 }
 
 .faq-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--primary-dark);
   text-align: center;
+  font-size: 20px;
+  color: var(--primary-1);
   margin-bottom: 24px;
 }
 
@@ -353,42 +308,26 @@
   gap: 12px;
 }
 
-/* FAQ 아이템 */
 .faq-item {
   border-radius: 8px;
   overflow: hidden;
 }
 
 .faq-question {
-  width: 100%;
   padding: 16px 20px;
-  background-color: var(--primary-dark);
-  color: var(--white);
+  background-color: var(--primary-1);
+  color: var(--text-w);
   border: none;
+  width: 100%;
   text-align: left;
-  font-size: 14px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.faq-question:hover {
-  background-color: var(--primary-darker);
-}
-
-.faq-question::before {
-  content: "Q.";
-  font-weight: 700;
 }
 
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  background-color: var(--bg-light);
   transition: max-height 0.3s ease;
+  background-color: var(--primary-3);
 }
 
 .faq-answer.open {
@@ -397,18 +336,12 @@
 
 .faq-answer-inner {
   padding: 16px 20px;
-  border-left: 4px solid var(--accent-yellow);
-  font-size: 14px;
-  color: var(--text-dark);
-  line-height: 1.6;
+  color: var(--text-1);
 }
 
-.faq-answer-inner::before {
-  content: "A. ";
-  font-weight: 600;
-}
-
-/* ===== Responsive ===== */
+/* ===============================
+   RESPONSIVE
+================================ */
 @media (max-width: 600px) {
   .hero-title {
     font-size: 20px;
@@ -418,24 +351,10 @@
     font-size: 13px;
   }
 
-  .tab-buttons {
-    gap: 8px;
-  }
-
-  .tab-btn {
-    padding: 8px 14px;
-    font-size: 12px;
-  }
-
-  .slider-arrow {
-    width: 32px;
-    height: 32px;
-  }
-
   .calendar-btn {
-    bottom: 16px;
-    right: 16px;
     width: 44px;
     height: 44px;
+    right: 16px;
+    bottom: 16px;
   }
 }
