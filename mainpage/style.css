@@ -1,0 +1,441 @@
+@import url(./reset.css);
+
+/* ===== Hero Section ===== */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  background-color: var(--primary-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 배경 이미지 - 전체 커버 */
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero 콘텐츠 */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.main-logo {
+  height: 80px;
+  width: auto;
+}
+
+.hero-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* 검색창 */
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--white);
+  border-radius: 50px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  background-color: white;
+}
+
+.search-box:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--text-light);
+  background: transparent;
+  cursor: pointer;
+}
+
+.search-box input::placeholder {
+  color: var(--text-light);
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 스크롤 다운 버튼 */
+.scroll-down-btn {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  padding: 8px;
+  z-index: 2;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* 캘린더 버튼 - position: fixed로 우측 하단 고정 */
+.calendar-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary-dark);
+  border: none;
+  border-radius: 50px;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-btn:hover {
+  background-color: var(--primary-darker);
+  transform: scale(1.05);
+}
+
+/* ===== Guide Section ===== */
+.guide-section {
+  position: relative;
+  background-color: var(--white);
+  padding: 60px 20px 40px;
+}
+
+/* 상단 곡선 형태 */
+.guide-section::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--white);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.guide-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 탭 버튼들 */
+.tab-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.tab-btn.active {
+  background-color: var(--accent-coral);
+  color: var(--white);
+}
+
+.tab-btn:hover:not(.active) {
+  background-color: var(--bg-gray);
+}
+
+/* 슬라이더 */
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.slider-arrow {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  color: var(--accent-coral);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.slider-arrow:hover {
+  opacity: 0.7;
+}
+
+.slider-content {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+/* 슬라이드 내부 - 이미지 중심 구조 */
+.slide-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-light);
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.slide-img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+/* 슬라이더 페이지네이션 */
+.slider-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.dot {
+  width: 24px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--bg-gray);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dot.active {
+  background-color: var(--primary-dark);
+  width: 32px;
+}
+
+/* 캘린더 이동 버튼 */
+.calendar-link-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 32px;
+  background-color: var(--primary-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.calendar-link-btn:hover {
+  background-color: var(--primary-darker);
+}
+
+/* ===== FAQ Section ===== */
+.faq-section {
+  background-color: var(--white);
+  padding: 20px 20px 60px;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin-bottom: 32px;
+}
+
+.faq-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* FAQ 아이템 */
+.faq-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: var(--primary-dark);
+  color: var(--white);
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.faq-question:hover {
+  background-color: var(--primary-darker);
+}
+
+.faq-question::before {
+  content: "Q.";
+  font-weight: 700;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--bg-light);
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer.open {
+  max-height: 200px;
+}
+
+.faq-answer-inner {
+  padding: 16px 20px;
+  border-left: 4px solid var(--accent-yellow);
+  font-size: 14px;
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.faq-answer-inner::before {
+  content: "A. ";
+  font-weight: 600;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 20px;
+  }
+
+  .hero-subtitle {
+    font-size: 13px;
+  }
+
+  .tab-buttons {
+    gap: 8px;
+  }
+
+  .tab-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .slider-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .calendar-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
