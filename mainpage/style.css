@@ -1,28 +1,43 @@
 @import url(./reset.css);
 
-/* ===============================
-   COLOR PALETTE
-================================ */
+/*COLOR PALETTE*/
 :root {
   --primary-1: #203674;
-  --primary-2: #AFD5FF;
-  --primary-3: #DBEAFE;
+  --primary-2: #afd5ff;
+  --primary-3: #dbeafe;
 
   --text-1: #111827;
-  --text-2: #4B5563;
-  --text-3: #DADCE2;
+  --text-2: #4b5563;
+  --text-3: #dadce2;
 
   --text-w: #ffffff;
 }
 
-/* ===============================
-   HERO SECTION
-================================ */
+header {
+  width: 100%;
+  height: 60px;
+  z-index: 100;
+}
+
+.header {
+  height: 100%;
+  display: flex;
+  align-items: center;      /* 세로 중앙 정렬 */
+  padding: 0 20px;          /* 좌측 여백 */
+  background-color: var(--primary-1);
+}
+
+.header img {
+  height: 40px;             /* 로고 크기 */
+  width: auto;
+}
+
+/* HERO SECTION */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 600px;
+  height: calc(100vh - 60px);
+  min-height: calc(600px - 60px);
   background-color: var(--primary-1);
   display: flex;
   align-items: center;
@@ -30,7 +45,6 @@
   overflow: hidden;
 }
 
-/* background */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -43,7 +57,6 @@
   object-fit: cover;
 }
 
-/* content */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -70,16 +83,16 @@
 
 .hero-subtitle {
   font-size: 14px;
-  color: var(--text-w);
+  color: var(--primary-3);
   opacity: 0.85;
   margin-bottom: 32px;
 }
 
-/* search */
 .search-box {
   display: flex;
   align-items: center;
   max-width: 600px;
+  min-height: 30px;
   margin: 0 auto;
   padding: 12px 20px;
   border-radius: 50px;
@@ -103,7 +116,6 @@
   cursor: pointer;
 }
 
-/* scroll down */
 .scroll-down-btn {
   position: absolute;
   bottom: 80px;
@@ -114,10 +126,16 @@
   color: var(--text-w);
   cursor: pointer;
   animation: bounce 2s infinite;
+  z-index: 5;
+  font-size: 24px;
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
   40% {
@@ -128,9 +146,9 @@
   }
 }
 
-/* ===============================
-   CALENDAR FLOAT BUTTON
-================================ */
+
+/*캘린더버튼*/
+
 .calendar-btn {
   position: fixed;
   right: 32px;
@@ -140,14 +158,13 @@
   border-radius: 50%;
   border: none;
   background-color: var(--primary-2);
-  color: var(--primary-1);
+  color: var(--text-w);
   cursor: pointer;
   z-index: 100;
+  font-size: 24px;
 }
 
-/* ===============================
-   GUIDE SECTION
-================================ */
+
 .guide-section {
   background-color: var(--text-w);
   padding: 60px 20px 40px;
@@ -170,7 +187,6 @@
   margin: 0 auto;
 }
 
-/* tabs */
 .tab-buttons {
   display: flex;
   justify-content: center;
@@ -194,27 +210,13 @@
   color: var(--primary-1);
 }
 
-/* ===============================
-   SLIDER
-================================ */
-.slider-container {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.slider-arrow {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: none;
-  color: var(--primary-1);
-  cursor: pointer;
+/*슬라이더*/
+.slider-wrapper {
+  margin-bottom: 24px;
 }
 
 .slider-content {
-  flex: 1;
+  position: relative;
   overflow: hidden;
   border-radius: 20px;
 }
@@ -243,28 +245,74 @@
   object-fit: contain;
 }
 
-/* pagination dots */
+.slider-arrow {
+  position: absolute;
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  color: var(--primary-1);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider-arrow i{
+  font-size: 18px;
+}
+
+.slider-arrow:hover {
+  transform: translateY(-50%) scale(1.5);
+}
+.slider-arrow:focus {
+  outline: none;
+}
+
+
+.slider-prev {
+  left: 16px;
+}
+
+.slider-next {
+  right: 16px;
+}
+
 .slider-pagination {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 24px;
+  z-index: 10;
 }
 
 .dot {
-  width: 24px;
+  width: 16px;
   height: 8px;
   border-radius: 4px;
-  background-color: var(--text-3);
+  background-color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
+  transition: width 0.2s, background-color 0.3s;
 }
 
 .dot.active {
   width: 32px;
-  background-color: var(--primary-1);
+  background-color: var(--text-w);
 }
 
-/* calendar link */
+.dot:hover {
+  background-color: var(--text-w);
+}
+
 .calendar-link-btn {
   display: block;
   margin: 0 auto;
@@ -276,9 +324,8 @@
   cursor: pointer;
 }
 
-/* ===============================
-   FAQ SECTION
-================================ */
+/* FAQ SECTION */
+
 .faq-section {
   padding: 20px 20px 60px;
   background-color: var(--text-w);
@@ -292,20 +339,21 @@
 .section-divider {
   height: 1px;
   background-color: var(--text-3);
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 }
 
 .faq-title {
   text-align: center;
   font-size: 20px;
+  font-weight: 500;
   color: var(--primary-1);
-  margin-bottom: 24px;
+  margin-bottom: 48px;
 }
 
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .faq-item {
@@ -321,13 +369,14 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .faq-answer {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  background-color: var(--primary-3);
+  background-color: var(--text-w);
 }
 
 .faq-answer.open {
@@ -337,11 +386,12 @@
 .faq-answer-inner {
   padding: 16px 20px;
   color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-/* ===============================
-   RESPONSIVE
-================================ */
+
+/*반응형*/
 @media (max-width: 600px) {
   .hero-title {
     font-size: 20px;
@@ -356,5 +406,18 @@
     height: 44px;
     right: 16px;
     bottom: 16px;
+  }
+
+  .slider-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .slider-prev {
+    left: 8px;
+  }
+
+  .slider-next {
+    right: 8px;
   }
 }

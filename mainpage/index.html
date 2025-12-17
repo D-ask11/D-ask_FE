@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D-ask 메인</title>
-    <link rel="stylesheet" href="../common/reset.css">
-    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/1429680651.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Hero Section (첫 화면 - 100vh) -->
+
+
+    <header>
+        <div class="header">
+            <a href="./index.html"><img src="../img/Dask_logo.png" alt=""></a>
+        </div>
+    </header>
+
     <section class="hero-section" id="hero">
-        <!-- 헤더는 사용자가 직접 추가 -->
-        
-        <!-- 배경 이미지를 단일 이미지로 변경 -->
+    
         <div class="hero-bg">
             <img src="../img/Dask_mainpageimg.png" alt="" class="hero-bg-img">
         </div>
 
         <div class="hero-content">
-            <!-- 로고 이미지 -->
             <div class="logo-container">
                 <img src="../img/Dask_logofull.png" alt="D-ask 로고" class="main-logo">
             </div>
@@ -27,57 +31,34 @@
             <h1 class="hero-title">ai 로 쉽게 확인하는 대마고 문서</h1>
             <p class="hero-subtitle">그 외에도 어쩌고 저쩌고 학교 문서 요약 QnA 기능도 있어요 랄라</p>
 
-            <!-- 검색창 (클릭 시 chatPage1으로 이동) -->
             <div class="search-box" id="searchBox">
                 <input type="text" placeholder="학교에 대해 궁금한 점이 있나요?" readonly>
                 <button class="search-btn" aria-label="검색">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
-                        <path d="M16 16L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
         </div>
 
-        <!-- 스크롤 다운 화살표 -->
         <button class="scroll-down-btn" id="scrollDownBtn" aria-label="아래로 스크롤">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <i class="fa-solid fa-angle-down"></i>
         </button>
     </section>
 
-    <!-- 캘린더 버튼을 body 레벨로 이동 (fixed 포지션) -->
     <button class="calendar-btn" id="calendarBtn" aria-label="캘린더">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-            <path d="M3 10H21" stroke="currentColor" stroke-width="2"/>
-            <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <rect x="7" y="14" width="3" height="3" fill="currentColor"/>
-            <rect x="14" y="14" width="3" height="3" fill="currentColor"/>
-        </svg>
+        <i class="fa-solid fa-calendar"></i>
     </button>
 
-    <!-- Guide Section (두번째 화면) -->
+    <!-- Guide Section -->
     <section class="guide-section" id="guide">
         <div class="guide-container">
-            <!-- 탭 버튼에 data-tab을 숫자 인덱스로 변경 -->
             <div class="tab-buttons">
                 <button class="tab-btn active" data-tab="0">D-ask 란?</button>
                 <button class="tab-btn" data-tab="1">캘린더 사용가이드</button>
                 <button class="tab-btn" data-tab="2">ai챗봇 사용가이드</button>
             </div>
 
-            <!-- 슬라이더 -->
-            <div class="slider-container">
-                <button class="slider-arrow slider-prev" aria-label="이전">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-
-                <!-- 슬라이드 구조를 단순 이미지로 변경 -->
+            <!-- 슬라이더 내부에 화살표와 페이지네이션 배치 -->
+            <div class="slider-wrapper">
                 <div class="slider-content">
                     <div class="slider-track" id="sliderTrack">
                         <!-- Slide 1 -->
@@ -102,44 +83,73 @@
                         </div>
                     </div>
 
-                    
-                    
+                    <!-- 슬라이더 내부 화살표 -->
+                    <button class="slider-arrow slider-prev" aria-label="이전">
+                       <i class="fa-solid fa-angle-left"></i>
+                    </button>
+
+                    <button class="slider-arrow slider-next" aria-label="다음">
+                       <i class="fa-solid fa-angle-right"></i>
+                    </button>
+
+                    <!-- 슬라이더 내부 페이지네이션 -->
+                    <div class="slider-pagination">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                        <span class="dot" data-index="2"></span>
+                    </div>
                 </div>
-
-                <button class="slider-arrow slider-next" aria-label="다음">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-
-                
             </div>
 
-            <!-- 슬라이더 페이지네이션 -->
-            <div class="slider-pagination">
-                <span class="dot active" data-index="0"></span>
-                <span class="dot" data-index="1"></span>
-                <span class="dot" data-index="2"></span>
-            </div>
-
-            <!-- 캘린더 이동 버튼 -->
             <button class="calendar-link-btn" id="calendarLinkBtn">캘린더 이동하기</button>
         </div>
     </section>
 
     <!-- FAQ Section -->
+    <!-- FAQ를 고정 HTML로 변경 -->
     <section class="faq-section" id="faq">
         <div class="faq-container">
             <div class="section-divider"></div>
             <h2 class="faq-title">자주 묻는 질문</h2>
 
             <div class="faq-list" id="faqList">
-                <!-- FAQ 아이템들은 JavaScript에서 동적으로 생성 -->
+                <div class="faq-item">
+                    <button class="faq-question">ai가 학교 문서도 요약해서 사용자에게 알려주나요?</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">네. ai가 모든 학교 문서를 학습하고 있어, 사용자가 문서의 내용을 궁금해하면 문서를 요약해 사용자에게 보여줍니다.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">캘린더 기능은 어떻게 사용하나요?</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">캘린더 버튼을 클릭하면 학교 일정을 확인할 수 있습니다. 시험, 행사, 방학 등 주요 일정이 자동으로 표시됩니다.</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-
-
 
     <script src="script.js"></script>
 </body>
