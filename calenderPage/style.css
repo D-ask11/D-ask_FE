@@ -12,36 +12,62 @@
   --text-w: #ffffff;
 }
 
-    body {
-      background-color: var(--text-w);
-      min-height: calc(100vh - 60px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+/* header */
+.header {
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-1);
+  z-index: 1000;
+}
 
-    .calendar-container {
-      background: var(--text-w);
-      border-radius: 20px;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      width: 100%;
-      max-width: 450px;
-    }
+.header img {
+  height: 40px;
+  width: auto;
+  margin: 10px 10px 10px 30px;
+}
 
-    .calendar-header {
-      background:var(--primary-1);
-      color: white;
-      padding: 25px;
-      text-align: center;
-    }
+/* body */
+body {
+  margin: 0;
+  background-color: var(--text-w);
+}
 
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+/* header 제외한 메인 영역 */
+.main {
+  min-height: calc(100dvh - 60px);
+  padding-top: 60px;          /* fixed header 공간 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* calendar */
+.calendar-container {
+  background: var(--text-w);
+  border-radius: 20px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+/* calendar 내부 헤더 */
+.calendar-header {
+  background: var(--primary-1);
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
     .nav-btn {
       background: none;
@@ -67,8 +93,8 @@
     }
 
     .current-month {
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-size: 1.2rem;
+      font-weight: 400;
     }
 
     .calendar-body {
@@ -130,10 +156,6 @@
       font-weight: bold;
     }
 
-    .day.has-event {
-      font-weight: bold;
-    }
-
     .day.has-event::after {
       content: '';
       position: absolute;
@@ -157,7 +179,7 @@
     }
 
     .day.selected {
-      border: 2px solid var(--primary-2);
+      border: 3px solid var(--primary-2);
     }
 
 
