@@ -9,33 +9,45 @@
   <script src="https://kit.fontawesome.com/1429680651.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="calendar-container">
-    <div class="calendar-header">
-      <div class="nav-container">
-        <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>
-        <span class="current-month" id="currentMonth"></span>
-        <button class="nav-btn" id="nextBtn"><i class="fa-solid fa-angle-right"></i></button>
-      </div>ㄴㄴㄴㄴ
-    </div>
-    <div class="calendar-body">
-      <div class="weekdays">
-        <span>일</span>
-        <span>월</span>
-        <span>화</span>
-        <span>수</span>
-        <span>목</span>
-        <span>금</span>
-        <span>토</span>
+
+
+  <header>
+        <div class="header">
+            <a href="./index.html"><img src="../img/Dask_logo.png" alt=""></a>
+        </div>
+  </header>
+
+  <main class="main">
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <div class="nav-container">
+          <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>
+          <span class="current-month" id="currentMonth"></span>
+          <button class="nav-btn" id="nextBtn"><i class="fa-solid fa-angle-right"></i></button>
+        </div>
       </div>
-      <div class="days" id="daysContainer"></div>
-    </div>
-    <div class="event-panel" id="eventPanel">
-      <h3 id="eventDate">날짜를 선택하세요</h3>
-      <div id="eventList">
-        <p class="no-event">날짜를 클릭하면 일정이 표시됩니다.</p>
+      <div class="calendar-body">
+        <div class="weekdays">
+          <span>일</span>
+          <span>월</span>
+          <span>화</span>
+          <span>수</span>
+          <span>목</span>
+          <span>금</span>
+          <span>토</span>
+        </div>
+        <div class="days" id="daysContainer"></div>
+      </div>
+      <div class="event-panel" id="eventPanel">
+        <h3 id="eventDate">날짜를 선택하세요</h3>
+        <div id="eventList">
+          <p class="no-event">날짜를 클릭하면 일정이 표시됩니다.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </main>
+
+  
 
   <script src="script.js"></script>
   
