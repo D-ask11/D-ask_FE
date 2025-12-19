@@ -281,8 +281,18 @@
 /* Page 2 - Chat Page Styles */
 
 .header {
-  padding: var(--spacing-lg);
-  flex-shrink: 0;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-1);
+}
+
+.header img {
+  height: 40px;             /* 로고 크기 */
+  width: auto;
+  margin: 10px 10px 10px 30px;
 }
 
 /* Chat Area */

@@ -32,8 +32,23 @@
 /* Page 1 - Main Page Styles */
 
 .header {
+<<<<<<< HEAD
   padding: var(--spacing-lg);
 >>>>>>> e3f5616 (QnA_page)
+=======
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-1);
+}
+
+.header img {
+  height: 40px;             /* 로고 크기 */
+  width: auto;
+  margin: 10px 10px 10px 30px;
+>>>>>>> 4f3a960 (QnAPage헤더)
 }
 
 .main-content {
