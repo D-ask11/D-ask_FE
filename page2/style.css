@@ -1,4 +1,17 @@
-/* Page 2 - Chat Page Styles */
+@import url(/reset.css);
+
+:root {
+  --primary-1: #203674;
+  --primary-2: #afd5ff;
+  --primary-3: #dbeafe;
+
+  --text-1: #111827;
+  --text-2: #4b5563;
+  --text-3: #dadce2;
+
+  --text-w: #ffffff;
+}
+
 
 .header {
   height: 60px;
@@ -15,14 +28,16 @@
   margin: 10px 10px 10px 30px;
 }
 
+
 /* Chat Area */
 .chat-area {
+  background-color: var(--primary-1);
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-lg);
+  padding: 100px 200px;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: 12px;
 }
 
 /* Message Styles */
@@ -52,40 +67,39 @@
 }
 
 .message__bubble {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--radius-lg);
+  padding: 12px 18px;
+  border-radius: 16px;
   font-size: 1rem;
   line-height: 1.6;
   word-break: keep-all;
 }
 
 .message--user .message__bubble {
-  background-color: var(--color-user-bubble);
-  color: var(--color-text-dark);
-  border-bottom-right-radius: var(--spacing-xs);
+  background-color: var(--text-w);
+  color: var(--text-1);
+  border-bottom-right-radius: 0px;
 }
 
 .message--ai .message__bubble {
-  background-color: var(--color-ai-bubble);
-  color: var(--color-text-dark);
-  border-bottom-left-radius: var(--spacing-xs);
+  background-color: var(--primary-2);
+  color: var(--text-1);
+  border-bottom-left-radius: 0px;
 }
 
-/* Typing Indicator */
 .typing-indicator {
   display: flex;
   gap: 4px;
-  padding: var(--spacing-md) var(--spacing-lg);
-  background-color: var(--color-ai-bubble);
-  border-radius: var(--radius-lg);
-  border-bottom-left-radius: var(--spacing-xs);
+  padding: 20px;
+  background-color: var(--primary-2);
+  border-radius: 16px;
+  border-bottom-left-radius: 0px;
   align-self: flex-start;
 }
 
 .typing-indicator span {
   width: 8px;
   height: 8px;
-  background-color: var(--color-primary);
+  background-color: var(--primary-1);
   border-radius: 50%;
   animation: typing 1.4s infinite ease-in-out;
 }
@@ -111,11 +125,14 @@
   }
 }
 
+
 /* Input Area */
 .input-area {
-  padding: var(--spacing-lg);
-  padding-top: var(--spacing-md);
+  background-color: var(--primary-1);
+  padding: 16px;
+  padding-top: 12px;
   flex-shrink: 0;
+  padding-bottom: 60px;
 }
 
 .input-area .input-wrapper {
