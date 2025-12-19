@@ -49,35 +49,12 @@ async function fetchSchedule(year, month) {
   }
 }
 
-// 샘플 데이터 (테스트용)
+// 테스트용....
 function getSampleData(year, month) {
   const sampleEvents = {
-    "2025-1": [
-      { title: "겨울방학", date: "2025-01-02" },
-      { title: "신정", date: "2025-01-01" },
-    ],
-    "2025-6": [
-      { title: "1학년 기업탐방", date: `2025-06-11` },
-      { title: "중간고사 시작", date: `2025-06-15` },
-      { title: "중간고사 종료", date: `2025-06-19` },
-      { title: "체육대회", date: `2025-06-25` },
-    ],
-    "2025-7": [
-      { title: "기말고사 시작", date: "2025-07-01" },
-      { title: "기말고사 종료", date: "2025-07-05" },
-      { title: "여름방학 시작", date: "2025-07-20" },
-    ],
-    "2024-12": [
-      { title: "기말고사 시작", date: "2024-12-16" },
-      { title: "기말고사 종료", date: "2024-12-20" },
-      { title: "크리스마스", date: "2024-12-25" },
-      { title: "겨울방학 시작", date: "2024-12-27" },
-    ],
     "2025-12": [
-      { title: "기말고사 시작", date: "2025-12-15" },
-      { title: "기말고사 종료", date: "2025-12-19" },
-      { title: "크리스마스", date: "2025-12-25" },
-      { title: "겨울방학 시작", date: "2025-12-26" },
+      { title: "크리스마스 이브", date: "2025-12-24" },
+      { title: "크리스마스", date: "2025-12-25" }
     ],
   }
 
@@ -174,7 +151,7 @@ function selectDate(dateStr, day) {
   const dayEvents = scheduleData.filter((event) => event.date === dateStr && event.title !== "오늘은 일정이 없습니다")
 
   if (dayEvents.length > 0) {
-    eventList.innerHTML = dayEvents.map((event) => `<div class="event-item">📌 ${event.title}</div>`).join("")
+    eventList.innerHTML = dayEvents.map((event) => `<div class="event-item">- ${event.title}</div>`).join("")
   } else {
     eventList.innerHTML = '<p class="no-event">이 날은 일정이 없습니다.</p>'
   }
@@ -200,5 +177,4 @@ nextBtn.addEventListener("click", () => {
   renderCalendar()
 })
 
-// 초기 렌더링
 renderCalendar()
