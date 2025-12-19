@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-@import url(../common/reset.css);
+@import url(/reset.css);
 
 :root {
   --primary-1: #203674;
@@ -14,22 +13,6 @@
 }
 
 
-
-.header {
-  height: 60px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--primary-1);
-}
-
-.header img {
-  height: 40px;             /* 로고 크기 */
-  width: auto;
-  margin: 10px 10px 10px 30px;
-=======
-/* Page 1 - Main Page Styles */
 
 .header {
 <<<<<<< HEAD
@@ -57,75 +40,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-<<<<<<< HEAD
   gap: 16px;
   background-color: var(--primary-1);
-=======
-  padding: var(--spacing-xl);
-  gap: var(--spacing-xl);
->>>>>>> e3f5616 (QnA_page)
 }
 
 /* Center Logo */
 .center-logo {
-<<<<<<< HEAD
   margin-bottom: 12px;
 }
 
 .logo img{
   width: 200px;
   align-items: center;
-=======
-  margin-bottom: var(--spacing-lg);
-}
-
-.logo-icon--large {
-  width: 60px;
-  height: 60px;
-  border-radius: var(--radius-md);
-}
-
-.logo-icon--large::before {
-  width: 12px;
-  height: 12px;
-  top: 12px;
-  right: 12px;
-}
-
-.logo-icon--large::after {
-  width: 9px;
-  height: 9px;
-  top: 9px;
-  right: 28px;
-}
-
-.logo-text--large {
-  font-size: 3rem;
->>>>>>> e3f5616 (QnA_page)
 }
 
 /* Search Area */
 .search-area {
   width: 100%;
-<<<<<<< HEAD
   max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 20px;}
-
-  .input-wrapper{
-    background-color: var(--text-w);
-    padding: 10px 24px;
-    border-radius: 50px;
-  }
-  .input-field::placeholder {
-  color: #999;
-=======
-  max-width: 700px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
->>>>>>> e3f5616 (QnA_page)
+  gap: 20px;
 }
 
 /* Suggestions */
@@ -133,17 +68,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-<<<<<<< HEAD
   gap: 16px;
-=======
-  gap: var(--spacing-sm);
->>>>>>> e3f5616 (QnA_page)
 }
 
 .suggestion-btn {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
   gap: 12px;
   padding: 10px 16px;
   background-color:var(--primary-3);
@@ -153,28 +83,7 @@
 }
 
 .suggestion-btn:hover {
-=======
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-md);
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: var(--radius-full);
-  font-size: 0.875rem;
-  color: var(--color-text-dark);
-  transition: all var(--transition-fast);
-}
-
-.suggestion-btn:hover {
-  background-color: var(--color-text-light);
->>>>>>> e3f5616 (QnA_page)
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-<<<<<<< HEAD
-=======
-.suggestion-btn svg {
-  width: 16px;
-  height: 16px;
-  color: var(--color-text-muted);
-}
->>>>>>> e3f5616 (QnA_page)
