@@ -5,81 +5,42 @@
 
 ;(() => {
   // ============================================
-  // API Configuration - 백엔드 연동 시 이 부분만 수정
+  // API Configuration
   // ============================================
   const ChatAPI = {
-    BASE_URL: "/api", // 실제 API URL로 변경
+    BASE_URL: "Dask-AI",
 
     /**
      * 메시지 전송 API
-     * @param {string} message - 사용자 메시지
+     * @param {string} question - 사용자 질문
      * @returns {Promise<string>} AI 응답
      */
-    async sendMessage(message) {
-      // === 실제 API 연동 시 아래 코드 사용 ===
-      /*
-            const response = await fetch(`${this.BASE_URL}/chat`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message }),
-            });
-            
-            if (!response.ok) {
-                throw new Error(`API Error: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            return this.parseResponse(data);
-            */
-
-      // === 테스트용 Mock 응답 ===
-      return this.mockResponse(message)
-    },
-
-    /**
-     * API 응답 파싱 - 백엔드 응답 구조에 맞게 수정
-     * @param {Object} data - API 응답 데이터
-     * @returns {string} 파싱된 메시지
-     */
-    parseResponse(data) {
-      // 백엔드 응답 구조에 맞게 수정
-      // 예: return data.response || data.message || data.answer
-      return data.response
-    },
-
-    /**
-     * 테스트용 Mock 응답
-     * @param {string} message
-     * @returns {Promise<string>}
-     */
-    mockResponse(message) {
-      return new Promise((resolve) => {
-        setTimeout(
-          () => {
-            const responses = {
-              독서록:
-                "한 학기에 인증제 채우려면 6개를 작성하면 됩니다.\n한 달에 한권 정도만 작성하면 인증제를 완벽하게 채울 수 있어요!\n어쩌고저쩌고어쩌고.... 저쩌고,,,,,\n이래서 저렇게 하면 됩니다......",
-              인증제:
-                "DMS 인증제는 학생들의 다양한 활동을 인증해주는 제도입니다.\n독서, 봉사, 체육 등 여러 영역에서 활동을 인증받을 수 있습니다.",
-              "12개": "네, 맞습니다 !\nDMS 독서품은 1년에 12권을 작성하면 됩니다.",
-              default: "안녕하세요! 학교에 대해 궁금한 점이 있으시면 질문해주세요.",
-            }
-
-            let response = responses.default
-            for (const [key, value] of Object.entries(responses)) {
-              if (key !== "default" && message.includes(key)) {
-                response = value
-                break
-              }
-            }
-
-            resolve(response)
-          },
-          1000 + Math.random() * 500,
-        )
+    async sendMessage(question) {
+      const response = await fetch(`${this.BASE_URL}/qna`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question }),
       })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        // 200 OK - 정상 응답
+        return data.answer
+      } else if (response.status === 400) {
+        // 400 Bad Request - 관련 없는 질문 또는 user 정보 질문
+        return data.message
+      } else if (response.status === 403) {
+        // 403 Forbidden - 학교 보안 관련 질문
+        return data.message
+      } else if (response.status === 500) {
+        // 500 Internal Server Error
+        throw new Error(data.message || "서버 에러입니다.")
+      } else {
+        throw new Error(`API Error: ${response.status}`)
+      }
     },
   }
 
@@ -176,7 +137,7 @@
       } catch (error) {
         console.error("API Error:", error)
         this.hideTypingIndicator()
-        this.addMessage("죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.", "ai")
+        this.addMessage(error.message || "죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.", "ai")
       } finally {
         this.isLoading = false
         this.handleInputChange()
@@ -195,7 +156,6 @@
 
       const bubbleEl = document.createElement("div")
       bubbleEl.className = "message__bubble"
-      bubbleEl.textContent = text
 
       // 줄바꿈 처리
       bubbleEl.innerHTML = text.replace(/\n/g, "<br>")
