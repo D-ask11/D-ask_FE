@@ -1,4 +1,3 @@
-
 /*COLOR PALETTE*/
 :root {
   --primary-1: #203674;
@@ -38,7 +37,7 @@ body {
 /* header 제외한 메인 영역 */
 .main {
   min-height: calc(100dvh - 60px);
-  padding-top: 60px;          /* fixed header 공간 */
+  padding-top: 60px; /* fixed header 공간 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,165 +67,163 @@ body {
   align-items: center;
 }
 
+.nav-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.0rem;
+  transition: all 0.3s ease;
+}
 
-    .nav-btn {
-      background: none;
-      border: none;
-      padding: 0;
-      margin: 0;
-      box-shadow: none;
-      appearance: none;
-      font: inherit;
-      color: inherit;
-      cursor: pointer;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.0rem;
-      transition: all 0.3s ease;
-    }
+.nav-btn:hover {
+  transform: scale(1.1);
+}
 
-    .nav-btn:hover {
-      transform: scale(1.1);
-    }
+.current-month {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
 
-    .current-month {
-      font-size: 1.2rem;
-      font-weight: 400;
-    }
+.calendar-body {
+  padding: 20px;
+}
 
-    .calendar-body {
-      padding: 20px;
-    }
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 10px;
+}
 
-    .weekdays {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      text-align: center;
-      margin-bottom: 10px;
-    }
+.weekdays span {
+  padding: 10px;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.85rem;
+}
 
-    .weekdays span {
-      padding: 10px;
-      font-weight: 600;
-      color: #666;
-      font-size: 0.85rem;
-    }
+.weekdays span:first-child {
+  color: #d74a3a;
+}
 
-    .weekdays span:first-child {
-      color: #d74a3a;
-    }
+.weekdays span:last-child {
+  color: #3668d3;
+}
 
-    .weekdays span:last-child {
-      color: #3668d3;
-    }
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
 
-    .days {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-    }
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  font-size: 0.95rem;
+}
 
-    .day {
-      aspect-ratio: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      font-size: 0.95rem;
-    }
+.day:hover {
+  background: #f0f0f0;
+}
 
-    .day:hover {
-      background: #f0f0f0;
-    }
+.day.other-month {
+  color: var(--text-3);
+}
 
-    .day.other-month {
-      color: var(--text-3);
-    }
+.day.today {
+  background: var(--primary-1);
+  color: white;
+  font-weight: bold;
+}
 
-    .day.today {
-      background:var(--primary-1);
-      color: white;
-      font-weight: bold;
-    }
+.day.has-event::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  width: 6px;
+  height: 6px;
+  background: var(--primary-1);
+  border-radius: 50%;
+}
 
-    .day.has-event::after {
-      content: '';
-      position: absolute;
-      bottom: 5px;
-      width: 6px;
-      height: 6px;
-      background: var(--primary-1);
-      border-radius: 50%;
-    }
+.day.today.has-event::after {
+  background: white;
+}
 
-    .day.today.has-event::after {
-      background: white;
-    }
+.day.sunday {
+  color: #d84e3f;
+}
 
-    .day.sunday {
-      color: #d84e3f;
-    }
+.day.saturday {
+  color: #3474db;
+}
 
-    .day.saturday {
-      color: #3474db;
-    }
+.day.selected {
+  border: 3px solid var(--primary-2);
+}
 
-    .day.selected {
-      border: 3px solid var(--primary-2);
-    }
+.event-panel {
+  border-top: 1px solid var(--text-3);
+  padding: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
 
+.event-panel h3 {
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
 
-    .event-panel {
-      border-top: 1px solid var(--text-3);
-      padding: 20px;
-      max-height: 200px;
-      overflow-y: auto;
-    }
+.event-item {
+  background: var(--primary-1);
+  color: white;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
 
-    .event-panel h3 {
-      margin-bottom: 15px;
-      font-size: 1rem;
-    }
+.event-item:last-child {
+  margin-bottom: 0;
+}
 
-    .event-item {
-      background:var(--primary-1);
-      color: white;
-      padding: 12px 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-    }
+.no-event {
+  color: var(--text-2);
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+}
 
-    .event-item:last-child {
-      margin-bottom: 0;
-    }
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-2);
+}
 
-    .no-event {
-      color: var(--text-2);
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 20px;
-      color: var(--text-2);
-    }
-
-    .error-message {
-      background: var(--text-3);
-      color: #c00;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      margin: 10px 0;
-      font-size: 0.9rem;
-    }
+.error-message {
+  background: var(--text-3);
+  color: #c00;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 0.9rem;
+}
