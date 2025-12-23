@@ -1,4 +1,4 @@
-@import url(/reset.css);
+@import url(../common/reset.css);
 
 :root {
   --primary-1: #203674;
@@ -26,6 +26,15 @@
   height: 40px;             /* 로고 크기 */
   width: auto;
   margin: 10px 10px 10px 30px;
+}
+
+  .input-wrapper{
+    background-color: var(--text-w);
+    padding: 10px 24px;
+    border-radius: 50px;
+  }
+  .input-field::placeholder {
+  color: #999;
 }
 
 
