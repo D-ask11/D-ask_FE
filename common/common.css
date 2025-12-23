@@ -1,38 +1,3 @@
-:root {
-  /* Colors */
-  --color-primary: #2b3a67;
-  --color-primary-light: #3d4f7c;
-  --color-accent: #5b8dee;
-  --color-accent-light: #89b4fa;
-
-  /* Message Colors */
-  --color-user-bubble: #ffffff;
-  --color-ai-bubble: #b8d4f1;
-
-  /* Text Colors */
-  --color-text-dark: #1a1a2e;
-  --color-text-light: #ffffff;
-  --color-text-muted: #6b7280;
-  --color-placeholder: #9ca3af;
-
-  /* Spacing */
-  --spacing-xs: 8px;
-  --spacing-sm: 12px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 9999px;
-
-  /* Transitions */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
-}
 
 /* Common Container */
 .container {
