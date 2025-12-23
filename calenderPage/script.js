@@ -16,49 +16,37 @@ const eventPanel = document.getElementById("eventPanel")
 const eventDate = document.getElementById("eventDate")
 const eventList = document.getElementById("eventList")
 
-// API 호출 함수 (실제 API URL로 교체 필요)
 async function fetchSchedule(year, month) {
-  // 실제 API 엔드포인트로 교체하세요
-  const API_URL = "/api/schedule" // 예시 URL
+  // API 명세서: GET Dask-AI/calendar?year=값&month=값
+  const API_URL = `Dask-AI/calendar?year=${year}&month=${month}`
 
   try {
     const response = await fetch(API_URL, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ year, month }),
     })
 
-    if (response.status === 404) {
-      console.log("해당 달의 일정을 찾을 수 없습니다.")
-      return []
-    }
-
+    // 500 Internal Server Error 처리
     if (response.status === 500) {
-      console.error("서버 에러가 발생했습니다.")
+      console.error("서버 에러가 발생했습니다. 백엔드에게 문의하세요.")
       return []
     }
 
-    const data = await response.json()
-    return Array.isArray(data) ? data : [data]
+    // 200 OK - 정상 응답 (빈 배열도 200으로 반환됨)
+    if (response.ok) {
+      const data = await response.json()
+      return Array.isArray(data) ? data : []
+    }
+
+    // 기타 에러
+    console.error("API 요청 실패:", response.status)
+    return []
   } catch (error) {
-    console.log("API 연결 실패, 샘플 데이터 사용")
-    // 샘플 데이터 반환 (테스트용)
-    return getSampleData(year, month)
+    console.error("API 연결 실패:", error)
+    return []
   }
-}
-
-// 테스트용....
-function getSampleData(year, month) {
-  const sampleEvents = {
-    "2025-12": [
-      { title: "크리스마스 이브", date: "2025-12-24" },
-      { title: "크리스마스", date: "2025-12-25" }
-    ],
-  }
-
-  return sampleEvents[`${year}-${month}`] || []
 }
 
 async function renderCalendar() {
@@ -107,8 +95,8 @@ async function renderCalendar() {
       classes.push("today")
     }
 
-    // 일정 있는 날 체크
-    const hasEvent = scheduleData.some((event) => event.date === dateStr && event.title !== "오늘은 일정이 없습니다")
+    // 일정 있는 날 체크 - API 응답에서 title과 date 확인
+    const hasEvent = scheduleData.some((event) => event.date === dateStr && event.title)
     if (hasEvent) {
       classes.push("has-event")
     }
@@ -148,7 +136,8 @@ function selectDate(dateStr, day) {
   const [year, month, dayNum] = dateStr.split("-")
   eventDate.textContent = `${year}년 ${Number.parseInt(month)}월 ${Number.parseInt(dayNum)}일 일정`
 
-  const dayEvents = scheduleData.filter((event) => event.date === dateStr && event.title !== "오늘은 일정이 없습니다")
+  // API 응답에서 해당 날짜의 일정 필터링
+  const dayEvents = scheduleData.filter((event) => event.date === dateStr && event.title)
 
   if (dayEvents.length > 0) {
     eventList.innerHTML = dayEvents.map((event) => `<div class="event-item">- ${event.title}</div>`).join("")
