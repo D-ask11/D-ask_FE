@@ -18,7 +18,7 @@ const eventList = document.getElementById("eventList")
 
 async function fetchSchedule(year, month) {
   // API 명세서: GET Dask-AI/calendar?year=값&month=값
-  const API_URL = `Dask-AI/calendar?year=${year}&month=${month}`
+  const API_URL = `http://10.108.50.143/calendar?year=${year}&month=${month}`
 
   try {
     const response = await fetch(API_URL, {
@@ -49,30 +49,19 @@ async function fetchSchedule(year, month) {
   }
 }
 
-async function renderCalendar() {
-  // 현재 월 표시
-  currentMonthEl.textContent = `${currentYear}년 ${currentMonth}월`
-
-  // 해당 월의 첫날과 마지막 날 (API 호출 전에 먼저 계산)
-  const firstDay = new Date(currentYear, currentMonth - 1, 1)
-  const lastDay = new Date(currentYear, currentMonth, 0)
+function generateDaysHTML(year, month, scheduleData) {
+  // 해당 월의 첫날과 마지막 날
+  const firstDay = new Date(year, month - 1, 1)
+  const lastDay = new Date(year, month, 0)
 
   // 이전 달의 마지막 날
-  const prevLastDay = new Date(currentYear, currentMonth - 1, 0)
+  const prevLastDay = new Date(year, month - 1, 0)
 
   // 첫 번째 날의 요일 (0: 일요일)
   const startDayOfWeek = firstDay.getDay()
 
   // 이번 달의 총 일수
   const totalDays = lastDay.getDate()
-
-  // 일정 데이터 가져오기 (실패해도 빈 배열로 처리)
-  try {
-    scheduleData = await fetchSchedule(currentYear, currentMonth)
-  } catch (error) {
-    console.error("일정 데이터 로드 실패:", error)
-    scheduleData = []
-  }
 
   let daysHTML = ""
 
@@ -85,13 +74,13 @@ async function renderCalendar() {
   // 이번 달의 날짜들
   const today = new Date()
   for (let day = 1; day <= totalDays; day++) {
-    const dateStr = `${currentYear}-${String(currentMonth).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-    const dayOfWeek = new Date(currentYear, currentMonth - 1, day).getDay()
+    const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+    const dayOfWeek = new Date(year, month - 1, day).getDay()
 
     const classes = ["day"]
 
     // 오늘 날짜 체크
-    if (currentYear === today.getFullYear() && currentMonth === today.getMonth() + 1 && day === today.getDate()) {
+    if (year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate()) {
       classes.push("today")
     }
 
@@ -114,7 +103,29 @@ async function renderCalendar() {
     daysHTML += `<div class="day other-month">${day}</div>`
   }
 
-  daysContainer.innerHTML = daysHTML
+  return daysHTML
+}
+
+function renderCalendar() {
+  // 현재 월 표시
+  currentMonthEl.textContent = `${currentYear}년 ${currentMonth}월`
+
+  // 먼저 빈 일정 데이터로 달력 렌더링 (날짜는 항상 표시됨)
+  daysContainer.innerHTML = generateDaysHTML(currentYear, currentMonth, [])
+
+  // 일정 데이터를 비동기로 가져와서 업데이트
+  fetchSchedule(currentYear, currentMonth)
+    .then((data) => {
+      scheduleData = data
+      // 일정 데이터가 있으면 달력 다시 렌더링하여 has-event 클래스 추가
+      if (scheduleData.length > 0) {
+        daysContainer.innerHTML = generateDaysHTML(currentYear, currentMonth, scheduleData)
+      }
+    })
+    .catch((error) => {
+      console.error("일정 데이터 로드 실패:", error)
+      scheduleData = []
+    })
 }
 
 // 날짜 선택
