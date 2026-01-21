@@ -22,23 +22,26 @@ const eventDate = document.getElementById("eventDate")
 const eventList = document.getElementById("eventList")
 
 // ===============================
+// 날짜 변환 (API: YYYYMMDD -> YYYY-MM-DD)
+// ===============================
+function apiDateToISO(dateStr) {
+  return `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`
+}
+
+// ===============================
 // 일정 API 호출
 // ===============================
 async function fetchSchedule(year, month) {
-  const API_URL = `http://10.108.50.143:8000/calendar?year=${year}&month=${month}`
+  const API_URL = `http://10.208.156.143:8000/calendar?year=${year}&month=${month}`
 
   try {
     const response = await fetch(API_URL)
-
-    if (!response.ok) {
-      console.error("API 요청 실패:", response.status)
-      return []
-    }
+    if (!response.ok) return []
 
     const data = await response.json()
     return Array.isArray(data) ? data : []
   } catch (error) {
-    console.error("API 연결 실패:", error)
+    console.error("API 오류", error)
     return []
   }
 }
@@ -78,7 +81,11 @@ function generateDaysHTML(year, month, scheduleData) {
       classes.push("today")
     }
 
-    if (scheduleData.some(e => e.date === dateStr && e.title)) {
+    if (
+      scheduleData.some(
+        e => apiDateToISO(e.date) === dateStr && e.title
+      )
+    ) {
       classes.push("has-event")
     }
 
@@ -86,9 +93,7 @@ function generateDaysHTML(year, month, scheduleData) {
     if (dayOfWeek === 6) classes.push("saturday")
 
     daysHTML += `
-      <div class="${classes.join(" ")}"
-           data-date="${dateStr}"
-           onclick="selectDate('${dateStr}')">
+      <div class="${classes.join(" ")}" data-date="${dateStr}">
         ${day}
       </div>
     `
@@ -109,16 +114,11 @@ function generateDaysHTML(year, month, scheduleData) {
 async function renderCalendar() {
   currentMonthEl.textContent = `${currentYear}년 ${currentMonth}월`
 
-  // 날짜는 항상 먼저 그림
   daysContainer.innerHTML = generateDaysHTML(currentYear, currentMonth, [])
 
-  // 일정 로드
   scheduleData = await fetchSchedule(currentYear, currentMonth)
 
-  // 일정 있으면 다시 렌더
-  if (scheduleData.length > 0) {
-    daysContainer.innerHTML = generateDaysHTML(currentYear, currentMonth, scheduleData)
-  }
+  daysContainer.innerHTML = generateDaysHTML(currentYear, currentMonth, scheduleData)
 }
 
 // ===============================
@@ -133,7 +133,9 @@ function selectDate(dateStr) {
   const [y, m, d] = dateStr.split("-")
   eventDate.textContent = `${y}년 ${Number(m)}월 ${Number(d)}일 일정`
 
-  const events = scheduleData.filter(e => e.date === dateStr && e.title)
+  const events = scheduleData.filter(
+    e => apiDateToISO(e.date) === dateStr && e.title
+  )
 
   if (events.length > 0) {
     eventList.innerHTML = events
@@ -143,6 +145,15 @@ function selectDate(dateStr) {
     eventList.innerHTML = `<p class="no-event">이 날은 일정이 없습니다.</p>`
   }
 }
+
+// ===============================
+// 날짜 클릭 (이벤트 위임)
+// ===============================
+daysContainer.addEventListener("click", e => {
+  const target = e.target.closest(".day[data-date]")
+  if (!target) return
+  selectDate(target.dataset.date)
+})
 
 // ===============================
 // 이전 / 다음 달
