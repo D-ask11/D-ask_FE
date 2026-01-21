@@ -10,6 +10,7 @@
     <link rel="icon" href="./img/Dask_logo.svg" />
 </head>
 <body>
+    
 
 
     <header>
@@ -49,34 +50,32 @@
         <a href="./calenderPage/index.html"><i class="fa-solid fa-calendar"></i></a>
     </button>
 
-    <!-- Guide Section -->
+    <!-- 슬라이더 -->
     <section class="guide-section" id="guide">
         <div class="guide-container">
             <div class="tab-buttons">
                 <button class="tab-btn active" data-tab="0">D-ask 란?</button>
                 <button class="tab-btn" data-tab="1">캘린더 사용가이드</button>
-                <button class="tab-btn" data-tab="2">ai챗봇 사용가이드</button>
+                <button class="tab-btn" data-tab="2">AI 챗봇 사용가이드</button>
             </div>
 
-            <!-- 슬라이더 내부에 화살표와 페이지네이션 배치 -->
             <div class="slider-wrapper">
                 <div class="slider-content">
                     <div class="slider-track" id="sliderTrack">
-                        <!-- Slide 1 -->
+
+
                         <div class="slide active">
                             <div class="slide-inner">
                                 <img src="./img/mainimg.png" alt="D-ask 소개" class="slide-img">
                             </div>
                         </div>
 
-                        <!-- Slide 2 -->
                         <div class="slide">
                             <div class="slide-inner">
                                 <img src="./img/mainimg-1.png" alt="캘린더 사용가이드" class="slide-img">
                             </div>
                         </div>
 
-                        <!-- Slide 3 -->
                         <div class="slide">
                             <div class="slide-inner">
                                 <img src="./img/mainimg-2.png" alt="AI챗봇 사용가이드" class="slide-img">
@@ -84,7 +83,7 @@
                         </div>
                     </div>
 
-                    <!-- 슬라이더 내부 화살표 -->
+
                     <button class="slider-arrow slider-prev" aria-label="이전">
                        <i class="fa-solid fa-angle-left"></i>
                     </button>
@@ -93,7 +92,6 @@
                        <i class="fa-solid fa-angle-right"></i>
                     </button>
 
-                    <!-- 슬라이더 내부 페이지네이션 -->
                     <div class="slider-pagination">
                         <span class="dot active" data-index="0"></span>
                         <span class="dot" data-index="1"></span>
@@ -106,39 +104,41 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <!-- FAQ를 고정 HTML로 변경 -->
     <section class="faq-section" id="faq">
         <div class="faq-container">
             <div class="section-divider"></div>
             <h2 class="faq-title">자주 묻는 질문</h2>
-
+            
             <div class="faq-list" id="faqList">
+            
+            <div class="faq-item">
+                <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
+                </div>
+            </div>
+
                 <div class="faq-item">
-                    <button class="faq-question">ai가 학교 문서도 요약해서 사용자에게 알려주나요?</button>
+                    <button class="faq-question">질문은 어떻게 해야 하나요?</button>
+</button>
                     <div class="faq-answer">
-                        <div class="faq-answer-inner">네. ai가 모든 학교 문서를 학습하고 있어, 사용자가 문서의 내용을 궁금해하면 문서를 요약해 사용자에게 보여줍니다.</div>
+                        <div class="faq-answer-inner">일상적인 문장 형태로 질문하면 됩니다.</div>
+                    </div>
+                </div>
+
+
+                <div class="faq-item">
+                    <button class="faq-question">기존 학교 홈페이지와의 차이점은 무엇인가요?</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">문서를 직접 탐색하지 않아도 자연어 질문만으로 정보를 확인할 수 있습니다.</div>
                     </div>
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
+                    <button class="faq-question">신입생도 쉽게 사용할 수 있나요?
+</button>
                     <div class="faq-answer">
-                        <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">D-ask는 어떤 서비스인가요?</button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">D-ask는 대마고 학생들을 위한 AI 기반 학교 정보 서비스입니다. 학교 문서, 일정, 공지사항 등을 쉽게 확인할 수 있습니다.</div>
+                        <div class="faq-answer-inner">학교 시스템에 대한 사전 지식이 없어도 사용할 수 있습니다.</div>
                     </div>
                 </div>
 
