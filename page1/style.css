@@ -1,4 +1,4 @@
-@import url(/reset.css);
+@import url(../common/reset.css);
 
 :root {
   --primary-1: #203674;
@@ -55,7 +55,15 @@
   max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 20px;}
+
+  .input-wrapper{
+    background-color: var(--text-w);
+    padding: 10px 24px;
+    border-radius: 50px;
+  }
+  .input-field::placeholder {
+  color: #999;
 }
 
 /* Suggestions */
