@@ -37,7 +37,7 @@ body {
 /* header 제외한 메인 영역 */
 .main {
   min-height: calc(100dvh - 60px);
-  padding-top: 60px; /* fixed header 공간 */
+  padding-top: 80px; /* fixed header 공간 */
   display: flex;
   justify-content: center;
   align-items: center;

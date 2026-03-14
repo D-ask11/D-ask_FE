@@ -2,7 +2,7 @@
  D-ask 메인 페이지 스크립트
  페이지 네비게이션
  슬라이더 기능
- 스크롤 스냅 기능
+ 큐엔에이 스크롤?기능
  */
 
 const CONFIG = {
@@ -87,7 +87,7 @@ const ScrollSnapController = {
   },
 }
 
-// ===== 슬라이더 컨트롤러 =====
+// 슬라이더..
 const SliderController = {
   currentIndex: 0,
   totalSlides: 3,
@@ -149,7 +149,6 @@ const SliderController = {
   },
 }
 
-// ===== FAQ 컨트롤러 (고정 HTML용) =====
 const FAQController = {
   init() {
     const container = document.getElementById("faqList")
@@ -162,7 +161,8 @@ const FAQController = {
       const faqItem = questionBtn.closest(".faq-item")
       const answer = faqItem.querySelector(".faq-answer")
 
-      // 다른 열린 답변 닫기
+
+
       container.querySelectorAll(".faq-answer.open").forEach((openAnswer) => {
         if (openAnswer !== answer) {
           openAnswer.classList.remove("open")
@@ -174,7 +174,10 @@ const FAQController = {
   },
 }
 
-// ===== 네비게이션 컨트롤러 =====
+
+
+
+
 const NavigationController = {
   init() {
     this.bindSearchBox()
@@ -209,7 +212,6 @@ const NavigationController = {
   },
 }
 
-// ===== 초기화 =====
 document.addEventListener("DOMContentLoaded", () => {
   ScrollSnapController.init()
   NavigationController.init()
