@@ -1,0 +1,423 @@
+@import url(../common/reset.css);
+
+/*COLOR PALETTE*/
+:root {
+  --primary-1: #203674;
+  --primary-2: #afd5ff;
+  --primary-3: #dbeafe;
+
+  --text-1: #111827;
+  --text-2: #4b5563;
+  --text-3: #dadce2;
+
+  --text-w: #ffffff;
+}
+
+header {
+  width: 100%;
+  height: 60px;
+  z-index: 100;
+}
+
+.header {
+  height: 100%;
+  display: flex;
+  align-items: center;      /* 세로 중앙 정렬 */
+  padding: 0 20px;          /* 좌측 여백 */
+  background-color: var(--primary-1);
+}
+
+.header img {
+  height: 40px;             /* 로고 크기 */
+  width: auto;
+}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px);
+  min-height: calc(600px - 60px);
+  background-color: var(--primary-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.main-logo {
+  height: 80px;
+}
+
+.hero-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-w);
+  margin-bottom: 12px;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: var(--primary-3);
+  opacity: 0.85;
+  margin-bottom: 32px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  max-width: 700px;
+  min-height: 50px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  border-radius: 50px;
+  background-color: var(--text-w);
+  cursor: pointer;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-1);
+}
+
+.search-btn {
+  border: none;
+  background: none;
+  color: var(--text-1);
+  cursor: pointer;
+}
+
+.scroll-down-btn {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  color: var(--text-w);
+  cursor: pointer;
+  animation: bounce 2s infinite;
+  z-index: 5;
+  font-size: 24px;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+
+/*캘린더버튼*/
+
+.calendar-btn {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary-2);
+  color: var(--text-w);
+  cursor: pointer;
+  z-index: 100;
+  font-size: 24px;
+}
+
+
+.guide-section {
+  background-color: var(--text-w);
+  padding: 60px 20px 40px;
+  position: relative;
+}
+
+.guide-section::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: var(--text-w);
+  border-radius: 50% 50% 0 0;
+}
+
+.guide-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  font-size: 14px;
+  background-color: var(--text-3);
+  color: var(--text-w);
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background-color: var(--primary-2);
+  color: var(--primary-1);
+}
+
+/*슬라이더*/
+.slider-wrapper {
+  margin-bottom: 24px;
+}
+
+.slider-content {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.slide {
+  min-width: 100%;
+}
+
+.slide-inner {
+  background-color: var(--primary-3);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.slide-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.slider-arrow {
+  position: absolute;
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  color: var(--primary-1);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider-arrow i{
+  font-size: 18px;
+}
+
+.slider-arrow:hover {
+  transform: translateY(-50%) scale(1.5);
+}
+.slider-arrow:focus {
+  outline: none;
+}
+
+
+.slider-prev {
+  left: 16px;
+}
+
+.slider-next {
+  right: 16px;
+}
+
+.slider-pagination {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 16px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: width 0.2s, background-color 0.3s;
+}
+
+.dot.active {
+  width: 32px;
+  background-color: var(--text-w);
+}
+
+.dot:hover {
+  background-color: var(--text-w);
+}
+
+.calendar-link-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-1);
+  color: var(--text-w);
+  cursor: pointer;
+}
+
+/* FAQ SECTION */
+
+.faq-section {
+  padding: 20px 20px 60px;
+  background-color: var(--text-w);
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-divider {
+  height: 1px;
+  background-color: var(--text-3);
+  margin-bottom: 48px;
+}
+
+.faq-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--primary-1);
+  margin-bottom: 48px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 16px 20px;
+  background-color: var(--primary-1);
+  color: var(--text-w);
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: var(--text-w);
+}
+
+.faq-answer.open {
+  max-height: 200px;
+}
+
+.faq-answer-inner {
+  padding: 16px 20px;
+  color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/*반응형*/
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 20px;
+  }
+
+  .hero-subtitle {
+    font-size: 13px;
+  }
+
+  .calendar-btn {
+    width: 44px;
+    height: 44px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .slider-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .slider-prev {
+    left: 8px;
+  }
+
+  .slider-next {
+    right: 8px;
+  }
+}
