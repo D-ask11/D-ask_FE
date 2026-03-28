@@ -1,0 +1,92 @@
+@import url(../common/reset.css);
+
+:root {
+  --primary-1: #203674;
+  --primary-2: #afd5ff;
+  --primary-3: #dbeafe;
+
+  --text-1: #111827;
+  --text-2: #4b5563;
+  --text-3: #dadce2;
+
+  --text-w: #ffffff;
+}
+
+
+
+.header {
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-1);
+}
+
+.header img {
+  height: 40px;             /* 로고 크기 */
+  width: auto;
+  margin: 10px 10px 10px 30px;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background-color: var(--primary-1);
+}
+
+/* Center Logo */
+.center-logo {
+  margin-bottom: 12px;
+}
+
+.logo img{
+  width: 200px;
+  align-items: center;
+}
+
+/* Search Area */
+.search-area {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;}
+
+  .input-wrapper{
+    background-color: var(--text-w);
+    padding: 10px 24px;
+    border-radius: 50px;
+  }
+  .input-field::placeholder {
+  color: #999;
+}
+
+/* Suggestions */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.suggestion-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color:var(--primary-3);
+  border-radius: 50px;
+  font-size: 0.9rem;
+  color: var(--text-2);
+}
+
+.suggestion-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
