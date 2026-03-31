@@ -4,9 +4,8 @@
     USER_ID: "testUser", // 임시 유저 ID (추후 인증 연동)
   };
 
-// api없어서 일단 임시 수정해야함
   const ChatAPI = {
-    // AI QnA 자동응답 (이건있음)
+    // 1. AI QnA 자동응답
     async askQuestion(question) {
       const res = await fetch(`${CONFIG.BASE_URL}/dask-ai/qna`, {
         method: "POST",
@@ -20,56 +19,59 @@
       throw new Error(`API Error: ${res.status}`);
     },
 
-    // 채팅 목록 조회 
+    // 2. 채팅 목록 조회 (GET api/chat/read_chat)
     async getRoomList() {
-      const res = await fetch(`${CONFIG.BASE_URL}/chat/list?id=${CONFIG.USER_ID}`); // URL Path 확인 필요!
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/read_chat?id=${CONFIG.USER_ID}`);
+      if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("채팅 목록을 불러오는데 실패했습니다.");
       return await res.json();
     },
 
-    // 대화내용 조회
+    // 3. 대화내용 조회 (GET api/chat/read_message)
     async getMessages(roomId) {
-      const res = await fetch(`${CONFIG.BASE_URL}/chat?id=${roomId}`);
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/read_message?id=${roomId}`);
+      if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("대화 내역을 불러오지 못했습니다.");
       return await res.json();
     },
 
-    // 새 채팅 생성
+    // 4. 새 채팅 생성 (POST api/chat/create)
     async createRoom(question, answer) {
       const message = `질문:${question} 답:${answer}`;
-      const res = await fetch(`${CONFIG.BASE_URL}/chat`, { 
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/create`, { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
       });
+      if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("새 채팅방 생성에 실패했습니다.");
-      return await res.json();
+      return await res.json(); // { title, id } 반환
     },
 
-    // 채팅 업데이트 
+    // 5. 채팅 업데이트 (POST api/chat/update)
     async updateRoom(roomId, question, answer) {
       const message = `질문:${question} 답:${answer}`;
-      const res = await fetch(`${CONFIG.BASE_URL}/chat/update`, { 
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/update`, { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: roomId, message }),
       });
+      if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("채팅 기록 저장에 실패했습니다.");
-      return await res.json();
+      return await res.json(); // { title } 반환
     },
 
-    // 채팅 삭제 (DELETE /chat) 
+    // 6. 채팅 삭제 (DELETE api/chat/delete) 
     async deleteRoom(roomId) {
-      const res = await fetch(`${CONFIG.BASE_URL}/chat`, { 
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/delete`, { 
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: roomId }),
       });
+      if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("삭제에 실패했습니다.");
     },
   };
-
-
 
   const Toast = {
     el: null, timer: null,
@@ -82,8 +84,6 @@
       this.timer = setTimeout(() => this.el.classList.remove("show"), duration);
     },
   };
-
-
 
   const ModalManager = {
     overlay: null, confirmBtn: null, cancelBtn: null, _cb: null,
@@ -155,14 +155,13 @@
       this.roomList.style.display = this.isListCollapsed ? "none" : "";
     },
 
-    // 서버에서 방 목록 가져와서 보여주기
     async fetchAndRenderRooms() {
       try {
         const rooms = await ChatAPI.getRoomList();
         this.renderRoomList(rooms);
       } catch (err) {
         console.error(err);
-        this.roomList.innerHTML = `<li style="padding:12px;color:#ff8080;font-size:0.8rem;text-align:center;">목록을 불러오지 못했습니다.</li>`;
+        this.roomList.innerHTML = `<li style="padding:12px;color:#ff8080;font-size:0.8rem;text-align:center;">${err.message}</li>`;
       }
     },
 
@@ -173,7 +172,9 @@
         return;
       }
 
-      rooms.forEach(room => this.roomList.appendChild(this._createRoomItem(room)));
+      rooms.forEach(room => {
+        this.roomList.appendChild(this._createRoomItem(room));
+      });
       this._updateActiveState();
     },
 
@@ -225,7 +226,6 @@
           return;
         }
         
-        // "질문: OOO 답: XXX" 형태의 문자열 파싱
         messages.forEach(msg => {
           const contentStr = msg.content || "";
           const splitText = contentStr.split("답:");
@@ -251,15 +251,13 @@
           ChatManager.clearMessages();
           ChatManager.showEmptyState();
         }
-        this.fetchAndRenderRooms(); // 삭제 후 목록 리렌더링
+        this.fetchAndRenderRooms(); 
         Toast.show("삭제되었습니다.");
-      } catch {
-        Toast.show("삭제에 실패했습니다.");
+      } catch(err) {
+        Toast.show(err.message || "삭제에 실패했습니다.");
       }
     },
   };
-
-
 
   const ChatManager = {
     chatArea: null, messageInput: null, sendBtn: null, emptyState: null, isLoading: false,
@@ -271,7 +269,6 @@
       this.emptyState = document.getElementById("chatEmptyState");
 
       this.bindEvents();
-      // this.messageInput.focus(); // 이 부분은 자동 전송 로직 뒤로 이동
     },
 
     bindEvents() {
@@ -313,16 +310,21 @@
 
       let answer = "";
       try {
+        //  AI 응답 가져오기
         answer = await ChatAPI.askQuestion(question);
         this.hideTypingIndicator();
         this.addMessage(answer, "ai");
 
         if (!SidebarManager.currentRoomId) {
+          // 새 채팅방 생성
           const newRoom = await ChatAPI.createRoom(question, answer);
           SidebarManager.currentRoomId = newRoom.id;
           SidebarManager.fetchAndRenderRooms(); 
         } else {
+          // 기존 채팅방 업데이트
           await ChatAPI.updateRoom(SidebarManager.currentRoomId, question, answer);
+          // 대화가 추가되면서 AI가 방 제목을 변경했을 수 있으므로 목록을 갱신합
+          SidebarManager.fetchAndRenderRooms();
         }
         
       } catch (error) {
@@ -361,7 +363,7 @@
       el.className = "message message--ai";
       el.innerHTML = `
         <div class="message__bubble">
-          내역을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+          '내역을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'
           <br><br>
           <button onclick="this.closest('.message').remove(); SidebarManager.loadRoom('${roomId}')"
                   style="background:var(--primary-1);color:#fff;border:none;padding:6px 16px;border-radius:50px;cursor:pointer;font-size:0.85rem;">
@@ -386,37 +388,25 @@
     scrollToBottom() { this.chatArea.scrollTop = this.chatArea.scrollHeight; },
   };
 
-  //초기화
   document.addEventListener("DOMContentLoaded", () => {
     Toast.init();
     ModalManager.init();
     SidebarManager.init();
     ChatManager.init();
 
-
-    // 1. URLSearchParams를 사용하여 URL에서 'q' 파라미터 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get('q');
 
-    // 2. 질문이 존재하는지 확인 (비어있거나 null이면 무시)
     if (initialQuery && initialQuery.trim()) {
-      // 3. 디코딩된 질문 텍스트를 입력창에 넣기
       ChatManager.messageInput.value = decodeURIComponent(initialQuery);
-      
-      // 4. 입력값 변경 핸들러를 호출하여 전송 버튼 활성화 상태 업데이트
       ChatManager.handleInputChange();
-      
-      // 5. 전송 버튼이 활성화되어 있다면 (공백이 아니라는 뜻), 자동으로 메시지 전송 로직 실행
       if (!ChatManager.sendBtn.disabled) {
         ChatManager.handleSendMessage();
       }
     } else {
-      // URL 파라미터가 없을 때만 입력창에 포커스 (사용자 경험 개선)
       ChatManager.messageInput.focus();
     }
   });
 
-  // 전역 범위에서 접근할 수 있도록 SidebarManager 노출 (loadError 재시도 버튼용)
   window.SidebarManager = SidebarManager;
-
 })();

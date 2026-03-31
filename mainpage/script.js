@@ -1,25 +1,4 @@
 
-// 로그인 상태에 따른 UI 업데이트 기능 ---
-
-const authArea = document.getElementById("authArea");
-// 로그인 상태 확인
-const isLogin = localStorage.getItem("isLogin");
-// 로그인 상태일 때
-if (isLogin === "true") {
-  authArea.innerHTML = `
-    <button type="button" class="btn-login" id="logoutBtn">로그아웃</button>
-  `;
-  // 로그아웃 클릭 이벤트
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("isLogin");
-    location.reload(); // 새로고침
-  });
-}
-
-// ---
-
 const CONFIG = {
   CHAT_PAGE_URL: "../page1/index.html",
   CALENDAR_PAGE_URL: "../calendar/index.html",
