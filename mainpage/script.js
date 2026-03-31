@@ -1,26 +1,14 @@
-/*
- D-ask 메인 페이지 스크립트
- 페이지 네비게이션
- 슬라이더 기능
- 큐엔에이 스크롤?기능
- */
 
+// 로그인 상태에 따른 UI 업데이트 기능 ---
 
-
-// 로그인부분-------
-
-// DOM 가져오기
 const authArea = document.getElementById("authArea");
-
 // 로그인 상태 확인
 const isLogin = localStorage.getItem("isLogin");
-
 // 로그인 상태일 때
 if (isLogin === "true") {
   authArea.innerHTML = `
     <button type="button" class="btn-login" id="logoutBtn">로그아웃</button>
   `;
-
   // 로그아웃 클릭 이벤트
   const logoutBtn = document.getElementById("logoutBtn");
 
@@ -30,6 +18,7 @@ if (isLogin === "true") {
   });
 }
 
+// ---
 
 const CONFIG = {
   CHAT_PAGE_URL: "../page1/index.html",

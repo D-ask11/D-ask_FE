@@ -1,4 +1,6 @@
-/*COLOR PALETTE*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+@import url(../common/common.css);
+@import url(../common/reset.css);
 :root {
   --primary-1: #203674;
   --primary-2: #afd5ff;
@@ -11,20 +13,20 @@
   --text-w: #ffffff;
 }
 
-/* header */
 
-/* 기본 마진 제거 (필요시 제외 가능) */
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-/* 헤더 공통 레이아웃 */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px; /* 헤더 높이 */
-  padding: 0 32px; /* 좌우 여백 */
+  height: 64px; 
+  padding: 0 32px;
   background-color: var(--primary-1);
 }
 
@@ -34,19 +36,17 @@ body {
   cursor: pointer;
 }
 
-/* 로고 이미지 크기 조정 */
 .header-logo-img {
-  height: 36px; /* 이미지의 높이를 조정하여 적절한 크기로 만듭니다. 비율은 자동 유지 */
+  height: 36px;
   width: auto;
   display: block;
 }
 
-/* 로그인 버튼 스타일 */
 .btn-login {
-  background-color: #2E4997; /* 제공된 연한 파란색 변수 사용 */
+  background-color: #2E4997; 
   color: var(--text-w);
   border: none;
-  border-radius: 20px; /* 둥근 테두리 */
+  border-radius: 20px; 
   padding: 8px 24px;
   font-size: 14px;
   font-weight: 500;
@@ -55,26 +55,22 @@ body {
 }
 
 .btn-login:hover {
-  opacity: 0.8; /* 마우스 오버 시 살짝 투명해짐 */
+  opacity: 0.8; 
 }
 
 
-/* body */
 body {
   margin: 0;
   background-color: var(--text-w);
 }
 
-/* header 제외한 메인 영역 */
 .main {
-  min-height: calc(100dvh - 60px);
-  padding-top: 80px; /* fixed header 공간 */
+  min-height: calc(100dvh - 64px);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* calendar */
 .calendar-container {
   background: var(--text-w);
   border-radius: 20px;
@@ -84,7 +80,7 @@ body {
   overflow: hidden;
 }
 
-/* calendar 내부 헤더 */
+/* calendar 헤더 */
 .calendar-header {
   background: var(--primary-1);
   color: white;

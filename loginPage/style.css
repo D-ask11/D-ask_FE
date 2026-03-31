@@ -1,7 +1,7 @@
-/* 기본 폰트 설정 (Noto Sans KR) */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+@import url(../common/common.css);
+@import url(../common/reset.css);
 
-/* COLOR PALETTE (참고용 CSS에서 가져옴) */
 :root {
   --primary-1: #203674;
   --primary-2: #afd5ff;
@@ -14,6 +14,7 @@
   --text-w: #ffffff;
 }
 
+
 * {
   margin: 0;
   padding: 0;
@@ -22,12 +23,10 @@
 }
 
 body {
-  /* 하드코딩된 #2D3D6A 대신 메인 테마 컬러 변수 적용 */
   background-color: var(--primary-1); 
   min-height: 100vh;
 }
 
-/* --- 헤더 --- */
 .header {
   display: flex;
   justify-content: space-between;
@@ -49,7 +48,6 @@ body {
   display: block;
 }
 
-/* 헤더 로그인 버튼 */
 .header .btn-login {
   background-color: #2E4997;
   color: var(--text-w);
@@ -66,9 +64,8 @@ body {
   opacity: 0.8;
 }
 
-/* --- 로그인 카드 영역 --- */
 .login-wrapper {
-  min-height: calc(100vh - 64px); /* 헤더 제외 높이 */
+  min-height: calc(100vh - 64px); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +73,6 @@ body {
 }
 
 .login-card {
-  /* 하드코딩된 #ffffff 교체 */
   background-color: var(--text-w); 
   width: 100%;
   max-width: 440px;
@@ -86,14 +82,12 @@ body {
 }
 
 .login-title {
-  /* 기존 #2D3D6A 대신 메인 테마 컬러 적용 */
   color: var(--primary-1); 
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 35px;
 }
 
-/* --- 로그인 버튼 공통 --- */
 .login-buttons {
   display: flex;
   flex-direction: column;
@@ -132,7 +126,7 @@ body {
   background-color: #f9f9f9;
 }
 
-/* 카카오 (브랜드 컬러 유지) */
+/* 카카오*/
 .btn-kakao {
   background-color: #FFEB3B;
   border: none;
@@ -143,7 +137,7 @@ body {
   font-size: 18px;
 }
 
-/* 네이버 (브랜드 컬러 유지) */
+/* 네이버 */
 .btn-naver {
   background-color: #06BE34;
   border: none;
