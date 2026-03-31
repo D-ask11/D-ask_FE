@@ -1,4 +1,3 @@
-
 const CONFIG = {
   CHAT_PAGE_URL: "../page1/index.html",
   CALENDAR_PAGE_URL: "../calendar/index.html",

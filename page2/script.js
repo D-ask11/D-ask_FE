@@ -1,6 +1,6 @@
 ;(() => {
   const CONFIG = {
-    BASE_URL: "http://10.208.156.213:8000", // 주의: 실배포시 https 필수
+    BASE_URL: "http://10.69.172.143:8001", // 백엔드 주소 (포트 8001)
     USER_ID: "testUser", // 임시 유저 ID (추후 인증 연동)
   };
 
@@ -10,6 +10,7 @@
       const res = await fetch(`${CONFIG.BASE_URL}/dask-ai/qna`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ★ 추가됨: 쿠키(인증) 포함
         body: JSON.stringify({ question }),
       });
       const data = await res.json();
@@ -21,7 +22,9 @@
 
     // 2. 채팅 목록 조회 (GET api/chat/read_chat)
     async getRoomList() {
-      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/read_chat?id=${CONFIG.USER_ID}`);
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/read_chat?id=${CONFIG.USER_ID}`, {
+        credentials: "include" // ★ 추가됨: 쿠키(인증) 포함
+      });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("채팅 목록을 불러오는데 실패했습니다.");
       return await res.json();
@@ -29,7 +32,9 @@
 
     // 3. 대화내용 조회 (GET api/chat/read_message)
     async getMessages(roomId) {
-      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/read_message?id=${roomId}`);
+      const res = await fetch(`${CONFIG.BASE_URL}/api/chat/read_message?id=${roomId}`, {
+        credentials: "include" // ★ 추가됨: 쿠키(인증) 포함
+      });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("대화 내역을 불러오지 못했습니다.");
       return await res.json();
@@ -41,6 +46,7 @@
       const res = await fetch(`${CONFIG.BASE_URL}/api/chat/create`, { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ★ 추가됨: 쿠키(인증) 포함
         body: JSON.stringify({ message }),
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
@@ -54,6 +60,7 @@
       const res = await fetch(`${CONFIG.BASE_URL}/api/chat/update`, { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ★ 추가됨: 쿠키(인증) 포함
         body: JSON.stringify({ id: roomId, message }),
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
@@ -66,6 +73,7 @@
       const res = await fetch(`${CONFIG.BASE_URL}/api/chat/delete`, { 
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ★ 추가됨: 쿠키(인증) 포함
         body: JSON.stringify({ id: roomId }),
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");

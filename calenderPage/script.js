@@ -1,28 +1,3 @@
-// 로그인부분-------
-
-// DOM 가져오기
-const authArea = document.getElementById("authArea");
-
-// 로그인 상태 확인
-const isLogin = localStorage.getItem("isLogin");
-
-// 로그인 상태일 때
-if (isLogin === "true") {
-  authArea.innerHTML = `
-    <button type="button" class="btn-login" id="logoutBtn">로그아웃</button>
-  `;
-
-  // 로그아웃 클릭 이벤트
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("isLogin");
-    location.reload(); // 새로고침
-  });
-}
-
-
-
 
 
 // ===============================
@@ -59,7 +34,7 @@ function apiDateToISO(dateStr) {
 // 일정 API 호출
 // ===============================
 async function fetchSchedule(year, month) {
-  const API_URL = `http://10.208.156.143:8000/calendar?year=${year}&month=${month}`
+  const API_URL = `http://10.69.172.143:8001/calendar?year=${year}&month=${month}`
 
   try {
     const response = await fetch(API_URL)
