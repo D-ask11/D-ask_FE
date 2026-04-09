@@ -1,91 +1,99 @@
 ;(() => {
   const CONFIG = {
-    // API 서버 엔드포인트 분리
-    CHAT_URL: "http://10.69.172.213:8000",      // AI QnA 자동응답 서버
-    HISTORY_URL: "http://10.69.172.143:8001",   // 채팅 히스토리(CRUD) 서버
+    // 💡 Ngrok HTTPS 주소로 변경 완료
+    CHAT_URL: "https://balletically-lamellirostral-sheba.ngrok-free.dev",      
+    HISTORY_URL: "https://balletically-lamellirostral-sheba.ngrok-free.dev",   
+    
     USER_ID: "testUser", 
-    TOKEN: "your_jwt_token_here", // 💡 사용자의 인증 토큰 (또는 아래 로직에서 localStorage 등을 활용)
+    // 💡 사용자의 인증 토큰 (localStorage 등에서 동적으로 가져오도록 수정 필요)
+    ACCESS_TOKEN: "your_access_token_here", 
+    REFRESH_TOKEN: "your_refresh_token_here",
+    // 💡 사용자가 어떤 소셜 로그인으로 들어왔는지 명시 (google, kakao, naver)
+    PROVIDER: "google", 
   };
 
-  const ChatAPI = {
-    // 1. AI QnA 자동응답 (POST /api/qna) -> CHAT_URL 사용
-    async askQuestion(question) {
-      // 💡 만약 로그인 시 저장된 토큰을 동적으로 가져와야 한다면 아래 코드를 사용하세요.
-      // const token = localStorage.getItem("accessToken") || CONFIG.TOKEN;
+  const getAuthHeaders = () => ({
+    "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}, ${CONFIG.REFRESH_TOKEN}`,
+    "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "69420" // 💡 Ngrok 접근 시 나타나는 경고 화면 우회용 헤더
+  });
 
-      const res = await fetch(`${CONFIG.CHAT_URL}/api/qna`, {
+  const ChatAPI = {
+    // 1. AI QnA 자동응답 (POST /ai/qna)
+    async askQuestion(question) {
+      const res = await fetch(`${CONFIG.CHAT_URL}/ai/qna`, {
         method: "POST",
         headers: { 
-          "Authorization": `Bearer ${CONFIG.TOKEN}`, 
-          "Content-Type": "application/json" 
+          "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}`, 
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420"
         },
         body: JSON.stringify({ 
           question: question,
-          // 💡 백엔드에서 Authorization 토큰을 통해 user_id를 식별하도록 업데이트되었다면 
-          // 아래 user_id 파라미터는 삭제하셔도 무방합니다. (백엔드 요구사항에 맞게 조절)
           user_id: CONFIG.USER_ID 
         }),
       });
 
       let data = {};
-      try {
-        data = await res.json();
-      } catch (err) {
-        throw new Error(`서버 응답 오류 (상태 코드: ${res.status})`);
-      }
+      try { data = await res.json(); } 
+      catch (err) { throw new Error(`서버 응답 오류 (상태 코드: ${res.status})`); }
 
       if (res.ok) return data.answer; 
-      if (data.message) throw new Error(data.message); // 예외 메시지 처리
+      if (data.message) throw new Error(data.message); 
       
       throw new Error(`알 수 없는 API 에러 (${res.status})`);
     },
 
-    // 2. 채팅 목록 조회 (GET /api/chat/read_chat) -> HISTORY_URL 사용
+    // 2. 채팅 목록 조회 (GET /api/chat/read_chat)
     async getRoomList() {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_chat?id=${CONFIG.USER_ID}`);
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_chat?provider=${CONFIG.PROVIDER}`, {
+        method: "GET",
+        headers: getAuthHeaders()
+      });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("채팅 목록 조회 실패");
       return await res.json();
     },
 
-    // 3. 대화내용 조회 (GET /api/chat/read_message) -> HISTORY_URL 사용
+    // 3. 대화내용 조회 (GET /api/chat/read_message) 
     async getMessages(roomId) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_message?id=${roomId}`);
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_message?id=${roomId}`, {
+        method: "GET",
+        headers: getAuthHeaders()
+      });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("대화 내역 조회 실패");
       return await res.json();
     },
 
-    // 4. 새 채팅 생성 (POST /api/chat/create) -> HISTORY_URL 사용
-    async createRoom(question, answer) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/create`, { 
+    // 4. 새 채팅 생성 (POST /api/chat/create)
+    async createRoom() {
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/create?provider=${CONFIG.PROVIDER}`, { 
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: `질문:${question} 답:${answer}` }),
+        headers: getAuthHeaders()
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("채팅방 생성 실패");
       return await res.json(); 
     },
 
-    // 5. 채팅 업데이트 (POST /api/chat/update) -> HISTORY_URL 사용
-    async updateRoom(roomId, question, answer) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/update`, { 
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: roomId, message: `질문:${question} 답:${answer}` }),
+    // 5. 채팅 업데이트 (POST /api/chat/update)
+    async updateRoom(roomId, message, role) {
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/update/${roomId}?provider=${CONFIG.PROVIDER}`, { 
+        method: "POST", 
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ message: message, role: role }),
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("채팅 기록 저장 실패");
       return await res.json(); 
     },
 
-    // 6. 채팅 삭제 (DELETE /api/chat/delete) -> HISTORY_URL 사용
+    // 6. 채팅 삭제 (DELETE /api/chat/delete)
     async deleteRoom(roomId) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/delete`, { 
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/delete/${roomId}?provider=${CONFIG.PROVIDER}`, { 
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: roomId }),
+        headers: getAuthHeaders()
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
       if (!res.ok) throw new Error("삭제 실패");
@@ -231,12 +239,16 @@
         }
         
         messages.forEach(msg => {
-          const splitText = (msg.content || "").split("답:");
-          const qText = splitText[0].replace("질문:", "").trim();
-          const aText = splitText[1] ? splitText[1].trim() : "답변을 불러올 수 없습니다.";
-          
-          if(qText) ChatManager.addMessage(qText, "user", false);
-          if(aText) ChatManager.addMessage(aText, "ai", false);
+          if(msg.role) {
+             ChatManager.addMessage(msg.content || msg.message, msg.role === 'user' ? 'user' : 'ai', false);
+          } else {
+            const splitText = (msg.content || msg.message || "").split("답:");
+            const qText = splitText[0].replace("질문:", "").trim();
+            const aText = splitText[1] ? splitText[1].trim() : "답변을 불러올 수 없습니다.";
+            
+            if(qText) ChatManager.addMessage(qText, "user", false);
+            if(aText) ChatManager.addMessage(aText, "ai", false);
+          }
         });
       } catch (err) {
         ChatManager.showLoadError(roomId);
@@ -310,11 +322,13 @@
         this.addMessage(answer, "ai");
 
         if (!SidebarManager.currentRoomId) {
-          const newRoom = await ChatAPI.createRoom(question, answer);
+          const newRoom = await ChatAPI.createRoom(); 
           SidebarManager.currentRoomId = newRoom.id;
-        } else {
-          await ChatAPI.updateRoom(SidebarManager.currentRoomId, question, answer);
-        }
+        } 
+        
+        await ChatAPI.updateRoom(SidebarManager.currentRoomId, question, "user");
+        await ChatAPI.updateRoom(SidebarManager.currentRoomId, answer, "assistant");
+        
         SidebarManager.fetchAndRenderRooms(); 
         
       } catch (error) {
