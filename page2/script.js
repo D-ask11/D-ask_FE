@@ -406,3 +406,4 @@
 
   window.SidebarManager = SidebarManager;
 })();
+
