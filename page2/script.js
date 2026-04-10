@@ -1,32 +1,26 @@
 ;(() => {
   const CONFIG = {
-    // 💡 정식 배포된 도메인으로 변경 완료
-    CHAT_URL: "https://d-ask.duckdns.org",      
-    HISTORY_URL: "https://d-ask.duckdns.org",   
+  CHAT_URL: "https://d-ask.duckdns.org/",
+HISTORY_URL: "https://d-ask.duckdns.org/", 
     
     USER_ID: "testUser", 
-    // 💡 사용자의 인증 토큰 (localStorage 등에서 동적으로 가져오도록 수정 필요)
     ACCESS_TOKEN: "your_access_token_here", 
     REFRESH_TOKEN: "your_refresh_token_here",
-    // 💡 사용자가 어떤 소셜 로그인으로 들어왔는지 명시 (google, kakao, naver)
     PROVIDER: "google", 
   };
 
   const getAuthHeaders = () => ({
     "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}, ${CONFIG.REFRESH_TOKEN}`,
     "Content-Type": "application/json"
-    // 💡 ngrok-skip-browser-warning 헤더 삭제 (정식 도메인에서는 불필요)
   });
 
   const ChatAPI = {
-    // 1. AI QnA 자동응답 (POST /ai/qna)
     async askQuestion(question) {
       const res = await fetch(`${CONFIG.CHAT_URL}/ai/qna`, {
         method: "POST",
         headers: { 
           "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}`, 
           "Content-Type": "application/json"
-          // 💡 ngrok-skip-browser-warning 헤더 삭제
         },
         body: JSON.stringify({ 
           question: question,
