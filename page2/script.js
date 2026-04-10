@@ -1,8 +1,8 @@
 ;(() => {
   const CONFIG = {
-    // 💡 Ngrok HTTPS 주소로 변경 완료
-    CHAT_URL: "https://balletically-lamellirostral-sheba.ngrok-free.dev",      
-    HISTORY_URL: "https://balletically-lamellirostral-sheba.ngrok-free.dev",   
+    // 💡 정식 배포된 도메인으로 변경 완료
+    CHAT_URL: "https://d-ask.duckdns.org",      
+    HISTORY_URL: "https://d-ask.duckdns.org",   
     
     USER_ID: "testUser", 
     // 💡 사용자의 인증 토큰 (localStorage 등에서 동적으로 가져오도록 수정 필요)
@@ -14,8 +14,8 @@
 
   const getAuthHeaders = () => ({
     "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}, ${CONFIG.REFRESH_TOKEN}`,
-    "Content-Type": "application/json",
-    "ngrok-skip-browser-warning": "69420" // 💡 Ngrok 접근 시 나타나는 경고 화면 우회용 헤더
+    "Content-Type": "application/json"
+    // 💡 ngrok-skip-browser-warning 헤더 삭제 (정식 도메인에서는 불필요)
   });
 
   const ChatAPI = {
@@ -25,8 +25,8 @@
         method: "POST",
         headers: { 
           "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}`, 
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "69420"
+          "Content-Type": "application/json"
+          // 💡 ngrok-skip-browser-warning 헤더 삭제
         },
         body: JSON.stringify({ 
           question: question,
