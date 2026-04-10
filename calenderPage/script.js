@@ -34,8 +34,7 @@ function apiDateToISO(dateStr) {
 // 일정 API 호출
 // ===============================
 async function fetchSchedule(year, month) {
-  const API_URL = `http://10.69.172.143:8001/calendar?year=${year}&month=${month}`
-
+const API_URL = `https://d-ask.duckdns.org/api/calendar?year=${year}&month=${month}`
   try {
     const response = await fetch(API_URL)
     if (!response.ok) return []
