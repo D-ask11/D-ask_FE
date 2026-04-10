@@ -1,85 +1,91 @@
+const API_BASE_URL = 'https://d-ask.duckdns.org';
+
 document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('btn-google');
     const kakaoBtn = document.getElementById('btn-kakao');
     const naverBtn = document.getElementById('btn-naver');
 
-    if(googleBtn) googleBtn.addEventListener('click', () => loginProcess('google'));
-    if(kakaoBtn) kakaoBtn.addEventListener('click', () => loginProcess('kakao'));
-    if(naverBtn) naverBtn.addEventListener('click', () => loginProcess('naver'));
+    if (googleBtn) googleBtn.addEventListener('click', () => loginProcess('google'));
+    if (kakaoBtn) kakaoBtn.addEventListener('click', () => loginProcess('kakao'));
+    if (naverBtn) naverBtn.addEventListener('click', () => loginProcess('naver'));
+
+    // OAuth 인증 후 돌아왔을 때 URL 파라미터에 토큰이 있는지 확인하는 로직 (선택 사항)
+    checkLoginCallback();
 });
 
-async function loginProcess(socialKind) {
-    try {
-        /* [수정] 명세서상 Query Parameter로 되어 있으므로 URL 뒤에 붙임 
-           만약 POST Body 형식을 써야 한다면 이전처럼 JSON.stringify 사용
-        */
-        const response = await fetch(`/api/auth/login?provider=${socialKind}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
+/**
+ * 1. 로그인 프로세스 시작
+ * HTML Form을 생성하여 백엔드의 OAuth 엔드포인트로 POST 전송합니다.
+ */
+function loginProcess(socialKind) {
+    console.log(`${socialKind} 로그인을 위해 백엔드로 이동합니다...`);
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    // API 명세에 따른 경로 (Query Parameter 포함)
+    form.action = `${API_BASE_URL}/api/auth/login?provider=${socialKind}`;
+    
+    document.body.appendChild(form);
+    form.submit();
+}
 
-        if (!response.ok) throw new Error('로그인 서버 응답 에러');
+/**
+ * 2. 회원가입 API 호출 및 자동 로그인 처리
+ * 회원가입 성공 시 받은 토큰을 저장하고 메인으로 이동합니다.
+ */
+async function registerUser(userId, provider) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                UserID: userId, // 명세에 따라 id가 없을 경우 빈 값이나 특정 값 처리
+                provider: provider 
+            }) 
+        });
 
         const data = await response.json();
 
-        /* [수정] 명세서에 따르면 신규 유저일 경우 ID 필드가 비어있음.
-           access_token 존재 여부로 로그인 성공/가입 필요를 판단합니다.
-        */
-        if (!data.access_token) {
-            console.log("신규 유저입니다. 회원가입을 진행합니다.");
-            
-            // 실제 서비스에서는 prompt 대신 이메일/닉네임 등을 받는 모달이나 페이지가 권장됩니다.
-            const newUserId = prompt("서비스에서 사용할 아이디(또는 닉네임)를 입력해주세요.");
-            
-            if (newUserId) {
-                await registerUser(newUserId, socialKind); 
-            } else {
-                alert("입력이 취소되었습니다.");
-            }
-            return;
+        if (response.ok) {
+            // 회원가입 성공 시 받은 토큰 정보를 로컬 스토리지에 저장
+            saveTokens(data);
+            alert("회원가입이 완료되었습니다! 메인 화면으로 이동합니다.");
+            window.location.href = '/main.html'; // 메인 페이지 경로
+        } else {
+            alert("회원가입 실패: " + (data.message || "이미 가입된 계정일 수 있습니다."));
         }
-
-        // 기존 유저 로그인 성공
-        console.log(`로그인 성공! Provider: ${data.provider}`);
-        
-        // [추가] 토큰 저장 (필요 시)
-        localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('refresh_token', data.refresh_token);
-
-        window.location.href = '/main.html';
-
     } catch (error) {
-        console.error("오류 발생:", error);
-        alert("처리에 실패했습니다.");
+        console.error("회원가입 통신 에러:", error);
     }
 }
 
 /**
- * [POST] 회원가입 API
+ * 3. 토큰 저장 유틸리티
  */
-async function registerUser(userId, provider) {
-    try {
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            /* [주석] 백엔드 DB 설계에 따라 추가 정보(email, provider 등)를 
-               함께 보내야 할 수도 있습니다. 
-            */
-            body: JSON.stringify({ 
-                UserID: userId,
-                provider: provider // 가입 시 어떤 소셜로 가입했는지 함께 전송
-            }) 
-        });
+function saveTokens(data) {
+    if (data.access_token) {
+        localStorage.setItem('accessToken', data.access_token);
+        localStorage.setItem('refreshToken', data.refresh_token);
+        localStorage.setItem('provider', data.provider);
+    }
+}
 
-        if (response.ok) {
-            alert("회원가입이 완료되었습니다! 다시 로그인 해주세요.");
-            // 가입 후 바로 토큰을 주지 않는 경우 다시 로그인을 유도하거나 
-            // 백엔드 응답에 따라 바로 로그인 처리
-            location.reload(); 
-        } else {
-            alert("회원가입 실패. 중복된 아이디일 수 있습니다.");
-        }
-    } catch (error) {
-        console.error("회원가입 에러:", error);
+/**
+ * 4. (참고) 백엔드에서 리다이렉트 시 토큰을 받아오는 로직
+ * 보통 OAuth 완료 후 백엔드가 프론트로 토큰을 넘겨줄 때 사용합니다.
+ */
+function checkLoginCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    
+    if (accessToken) {
+        // 토큰이 URL에 있다면 로그인 성공으로 간주하고 저장 후 메인 이동
+        const authData = {
+            access_token: accessToken,
+            refresh_token: urlParams.get('refresh_token'),
+            provider: urlParams.get('provider')
+        };
+        saveTokens(authData);
+        window.location.href = '/main.html';
     }
 }
