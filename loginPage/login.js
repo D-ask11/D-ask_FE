@@ -8,15 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (googleBtn) googleBtn.addEventListener('click', () => loginProcess('google'));
     if (kakaoBtn) kakaoBtn.addEventListener('click', () => loginProcess('kakao'));
     if (naverBtn) naverBtn.addEventListener('click', () => loginProcess('naver'));
-
-    // OAuth 인증 후 돌아왔을 때 URL 파라미터에 토큰이 있는지 확인하는 로직 (선택 사항)
     checkLoginCallback();
 });
 
-/**
- * 1. 로그인 프로세스 시작
- * HTML Form을 생성하여 백엔드의 OAuth 엔드포인트로 POST 전송합니다.
- */
+
 function loginProcess(socialKind) {
     console.log(`${socialKind} 로그인을 위해 백엔드로 이동합니다...`);
     
@@ -29,10 +24,8 @@ function loginProcess(socialKind) {
     form.submit();
 }
 
-/**
- * 2. 회원가입 API 호출 및 자동 로그인 처리
- * 회원가입 성공 시 받은 토큰을 저장하고 메인으로 이동합니다.
- */
+
+// 회원가입 API 호출 및 자동 로그인 처리/ 회원가입 성공 시 받은 토큰을 저장하고 메인으로 이동
 async function registerUser(userId, provider) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
@@ -47,7 +40,6 @@ async function registerUser(userId, provider) {
         const data = await response.json();
 
         if (response.ok) {
-            // 회원가입 성공 시 받은 토큰 정보를 로컬 스토리지에 저장
             saveTokens(data);
             alert("회원가입이 완료되었습니다! 메인 화면으로 이동합니다.");
             window.location.href = '/main.html'; // 메인 페이지 경로
@@ -59,9 +51,6 @@ async function registerUser(userId, provider) {
     }
 }
 
-/**
- * 3. 토큰 저장 유틸리티
- */
 function saveTokens(data) {
     if (data.access_token) {
         localStorage.setItem('accessToken', data.access_token);
@@ -70,10 +59,8 @@ function saveTokens(data) {
     }
 }
 
-/**
- * 4. (참고) 백엔드에서 리다이렉트 시 토큰을 받아오는 로직
- * 보통 OAuth 완료 후 백엔드가 프론트로 토큰을 넘겨줄 때 사용합니다.
- */
+
+//마지막에 토큰을 받아옴.
 function checkLoginCallback() {
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get('access_token');
@@ -86,6 +73,6 @@ function checkLoginCallback() {
             provider: urlParams.get('provider')
         };
         saveTokens(authData);
-        window.location.href = '/main.html';
+        window.location.href = '/index.html';
     }
 }
