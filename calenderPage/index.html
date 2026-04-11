@@ -14,13 +14,21 @@
     <header class="header">
   <div class="header-logo">
     <a href="../index.html">
-    <img src="../img/Dask_logosmall.png" alt="로고" class="header-logo-img">
+      <img src="../img/Dask_logosmall.png" alt="로고" class="header-logo-img">
     </a>
   </div>
+  
   <div class="header-actions">
-    <a href="../loginPage/index.html" id="authArea">
-    <button type="button" class="btn-login">로그인</button>
-    </a>  </div>
+    <div id="login-group">
+      <a href="../loginPage/index.html">
+        <button type="button" class="btn-login">로그인</button>
+      </a>
+    </div>
+
+    <div id="user-group" style="display: none;">
+      <button type="button" id="btn-logout" class="btn-login">로그아웃</button>
+    </div>
+  </div>
 </header>
 
   <main class="main">

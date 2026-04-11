@@ -65,3 +65,42 @@
   // Focus input on load
   searchInput.focus()
 })()
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. 로그인 상태 업데이트 실행
+    updateAuthUI();
+
+    // 2. 로그아웃 버튼 클릭 이벤트 연결
+    const logoutBtn = document.getElementById('btn-logout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            // 로컬 스토리지 비우기
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('provider');
+            
+            alert("로그아웃 되었습니다.");
+            // 메인 페이지로 이동 또는 새로고침
+            location.href = '../index.html';
+        });
+    }
+});
+
+/**
+ * 로그인 상태(토큰 유무)에 따라 헤더의 버튼을 교체하는 함수
+ */
+function updateAuthUI() {
+    const accessToken = localStorage.getItem('accessToken');
+    const loginGroup = document.getElementById('login-group');
+    const userGroup = document.getElementById('user-group');
+
+    if (accessToken) {
+        // 토큰이 있으면: 로그인 버튼 숨기고, 로그아웃 버튼 보이기
+        if (loginGroup) loginGroup.style.display = 'none';
+        if (userGroup) userGroup.style.display = 'block';
+    } else {
+        // 토큰이 없으면: 로그인 버튼 보이고, 로그아웃 버튼 숨기기
+        if (loginGroup) loginGroup.style.display = 'block';
+        if (userGroup) userGroup.style.display = 'none';
+    }
+}

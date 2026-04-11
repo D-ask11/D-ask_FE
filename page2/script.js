@@ -1,32 +1,29 @@
 ;(() => {
   const CONFIG = {
-    // 💡 정식 배포된 도메인으로 변경 완료
-    CHAT_URL: "https://d-ask.duckdns.org",      
-    HISTORY_URL: "https://d-ask.duckdns.org",   
+    CHAT_URL: "https://d-ask.duckdns.org",
+    HISTORY_URL: "https://d-ask.duckdns.org",
+    
+    // 1. 주소창에서 토큰을 먼저 찾고, 없으면 로컬스토리지에서 가져오는 로직
+    // (메인/로그인 페이지와의 호환성을 위해 accessToken, access_token 두 키 모두 체크)
+    ACCESS_TOKEN: new URLSearchParams(window.location.search).get('access_token') || localStorage.getItem('access_token') || localStorage.getItem('accessToken'), 
+    REFRESH_TOKEN: new URLSearchParams(window.location.search).get('refresh_token') || localStorage.getItem('refresh_token') || localStorage.getItem('refreshToken'),
+    PROVIDER: new URLSearchParams(window.location.search).get('provider') || localStorage.getItem('provider') || "google", 
     
     USER_ID: "testUser", 
-    // 💡 사용자의 인증 토큰 (localStorage 등에서 동적으로 가져오도록 수정 필요)
-    ACCESS_TOKEN: "your_access_token_here", 
-    REFRESH_TOKEN: "your_refresh_token_here",
-    // 💡 사용자가 어떤 소셜 로그인으로 들어왔는지 명시 (google, kakao, naver)
-    PROVIDER: "google", 
   };
 
   const getAuthHeaders = () => ({
     "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}, ${CONFIG.REFRESH_TOKEN}`,
     "Content-Type": "application/json"
-    // 💡 ngrok-skip-browser-warning 헤더 삭제 (정식 도메인에서는 불필요)
   });
 
   const ChatAPI = {
-    // 1. AI QnA 자동응답 (POST /ai/qna)
     async askQuestion(question) {
       const res = await fetch(`${CONFIG.CHAT_URL}/ai/qna`, {
         method: "POST",
         headers: { 
           "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}`, 
           "Content-Type": "application/json"
-          // 💡 ngrok-skip-browser-warning 헤더 삭제
         },
         body: JSON.stringify({ 
           question: question,
@@ -389,6 +386,23 @@
   };
 
   document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('access_token');
+    
+    if (token) {
+      localStorage.setItem('access_token', token);
+      localStorage.setItem('accessToken', token);
+      
+      const refreshToken = urlParams.get('refresh_token');
+      localStorage.setItem('refresh_token', refreshToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      
+      const provider = urlParams.get('provider') || 'google';
+      localStorage.setItem('provider', provider);
+      
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     Toast.init();
     ModalManager.init();
     SidebarManager.init();
