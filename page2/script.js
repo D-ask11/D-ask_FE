@@ -54,7 +54,7 @@
 
     // 3. 대화내용 조회 (GET /api/chat/read_message) 
     async getMessages(roomId) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_message?id=${roomId}`, {
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_message/${roomId}`, {
         method: "GET",
         headers: getAuthHeaders()
       });
