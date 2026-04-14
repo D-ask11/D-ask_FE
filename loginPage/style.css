@@ -119,8 +119,8 @@ body {
 /* 구글 */
 .btn-google {
   background-color: var(--text-w);
-  border: 1px solid var(--text-3); /* #dcdcdc를 변수로 교체 */
-  color: var(--text-1); /* #333333를 변수로 교체 */
+  border: 1px solid var(--text-3);
+  color: var(--text-1); 
 }
 .btn-google:hover {
   background-color: #f9f9f9;
