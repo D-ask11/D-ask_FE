@@ -11,7 +11,7 @@
   const getProvider = () => new URLSearchParams(window.location.search).get('provider') || localStorage.getItem('provider') || "google";
 
   const getAuthHeaders = () => ({
-    "Authorization": `Bearer ${getToken()}, ${getRefreshToken()}`,
+    "Authorization": `Bearer ${getToken()}`,
     "Content-Type": "application/json"
   });
 
