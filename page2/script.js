@@ -1,19 +1,17 @@
 ;(() => {
   const CONFIG = {
-    CHAT_URL: "https://d-ask.duckdns.org",
-    HISTORY_URL: "https://d-ask.duckdns.org",
-    
-    // 1. 주소창에서 토큰을 먼저 찾고, 없으면 로컬스토리지에서 가져오는 로직
-    // (메인/로그인 페이지와의 호환성을 위해 accessToken, access_token 두 키 모두 체크)
-    ACCESS_TOKEN: new URLSearchParams(window.location.search).get('access_token') || localStorage.getItem('access_token') || localStorage.getItem('accessToken'), 
-    REFRESH_TOKEN: new URLSearchParams(window.location.search).get('refresh_token') || localStorage.getItem('refresh_token') || localStorage.getItem('refreshToken'),
-    PROVIDER: new URLSearchParams(window.location.search).get('provider') || localStorage.getItem('provider') || "google", 
-    
-    USER_ID: "testUser", 
+    CHAT_URL: "https://d-ask.duckdns.org", 
+    HISTORY_URL:"https://d-ask.duckdns.org",
+    USER_ID: "testUser",
   };
 
+  // 1. 함수로 변경: 호출할 때마다 최신 값을 주소창이나 로컬스토리지에서 가져옴
+  const getToken = () => new URLSearchParams(window.location.search).get('access_token') || localStorage.getItem('access_token') || localStorage.getItem('accessToken');
+  const getRefreshToken = () => new URLSearchParams(window.location.search).get('refresh_token') || localStorage.getItem('refresh_token') || localStorage.getItem('refreshToken');
+  const getProvider = () => new URLSearchParams(window.location.search).get('provider') || localStorage.getItem('provider') || "google";
+
   const getAuthHeaders = () => ({
-    "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}, ${CONFIG.REFRESH_TOKEN}`,
+    "Authorization": `Bearer ${getToken()}`,
     "Content-Type": "application/json"
   });
 
@@ -22,12 +20,11 @@
       const res = await fetch(`${CONFIG.CHAT_URL}/ai/qna`, {
         method: "POST",
         headers: { 
-          "Authorization": `Bearer ${CONFIG.ACCESS_TOKEN}`, 
+          "Authorization": `Bearer ${getToken()}`, 
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
-          question: question,
-          user_id: CONFIG.USER_ID 
+          question: question
         }),
       });
 
@@ -43,7 +40,7 @@
 
     // 2. 채팅 목록 조회 (GET /api/chat/read_chat)
     async getRoomList() {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_chat?provider=${CONFIG.PROVIDER}`, {
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_chat?provider=${getProvider()}`, {
         method: "GET",
         headers: getAuthHeaders()
       });
@@ -54,7 +51,7 @@
 
     // 3. 대화내용 조회 (GET /api/chat/read_message) 
     async getMessages(roomId) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_message/${roomId}`, {
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/read_message/${roomId}?provider=${getProvider()}`, {
         method: "GET",
         headers: getAuthHeaders()
       });
@@ -65,7 +62,7 @@
 
     // 4. 새 채팅 생성 (POST /api/chat/create)
     async createRoom() {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/create?provider=${CONFIG.PROVIDER}`, { 
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/create?provider=${getProvider()}`, { 
         method: "POST",
         headers: getAuthHeaders()
       });
@@ -76,7 +73,7 @@
 
     // 5. 채팅 업데이트 (POST /api/chat/update)
     async updateRoom(roomId, message, role) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/update/${roomId}?provider=${CONFIG.PROVIDER}`, { 
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/update/${roomId}?provider=${getProvider()}`, { 
         method: "POST", 
         headers: getAuthHeaders(),
         body: JSON.stringify({ message: message, role: role }),
@@ -88,7 +85,7 @@
 
     // 6. 채팅 삭제 (DELETE /api/chat/delete)
     async deleteRoom(roomId) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/delete/${roomId}?provider=${CONFIG.PROVIDER}`, { 
+      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/delete/${roomId}?provider=${getProvider()}`, { 
         method: "DELETE",
         headers: getAuthHeaders()
       });
@@ -363,7 +360,7 @@
       el.innerHTML = `
         <div class="message__bubble">
           내역을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.<br><br>
-          <button onclick="this.closest('.message').remove(); SidebarManager.loadRoom('${roomId}')"
+          <button onclick="this.closest('.message').remove(); window.SidebarManager.loadRoom('${roomId}')"
                   style="background:var(--primary-1);color:#fff;border:none;padding:6px 16px;border-radius:50px;cursor:pointer;font-size:0.85rem;">
             재시도
           </button>
