@@ -46,7 +46,7 @@
         headers: getAuthHeaders()
       });
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
-      if (!res.ok) throw new Error("채팅 목록 조회 실패");
+      if (!res.ok) throw new Error("로그인 해주세요.");
       
       return await res.json();
     },
@@ -89,13 +89,24 @@
     },
 
     async deleteRoom(roomId) {
-      const res = await fetch(`${CONFIG.HISTORY_URL}/api/chat/delete/${roomId}?provider=${getProvider()}`,
+      const url = `${CONFIG.HISTORY_URL}/api/chat/delete/${roomId}?provider=${getProvider()}`;
+      console.log("deleteRoom 호출", { url, headers: getAuthHeaders() });
+
+      const res = await fetch(url,
       {
         method: "DELETE",
         headers: getAuthHeaders()
       });
+
+      let result = null;
+      try { result = await res.json(); } catch (_) { /* 빈 응답 허용 */ }
+
+      if (res.status === 401 || res.status === 403) throw new Error("권한이 없습니다. 다시 로그인하세요.");
+      if (res.status === 404) throw new Error("이미 삭제되었거나 존재하지 않는 방입니다.");
       if (res.status === 500) throw new Error("서버 에러, 백엔드에게 문의하세요.");
-      if (!res.ok) throw new Error("삭제 실패");
+      if (!res.ok) throw new Error(result?.detail || "삭제 중 서버 에러가 발생했습니다.");
+
+      return true;
     },
   };
 
@@ -274,7 +285,9 @@
       if (!(await ModalManager.confirm())) return;
 
       try {
+        console.log("삭제 요청 시작", { roomId, provider: getProvider(), token: !!getToken() });
         await ChatAPI.deleteRoom(roomId);
+        console.log("삭제 요청 성공", roomId);
         
         // 삭제시 화면 초기화(삭제)
         if (this.currentRoomId === roomId) {
@@ -283,9 +296,10 @@
           ChatManager.showEmptyState();
         }
         
-        this.fetchAndRenderRooms();
+        await this.fetchAndRenderRooms();
         Toast.show("삭제되었습니다.");
       } catch (err) {
+        console.error("삭제 실패", err);
         Toast.show(err.message || "삭제에 실패했습니다.");
       }
     },
@@ -322,45 +336,58 @@
       this.messageInput.focus();
     },
 
-    async handleSendMessage(){
-      const question = this.messageInput.value.trim();
-      if (!question || this.isLoading) return;
+async handleSendMessage() {
+    const question = this.messageInput.value.trim();
+    if (!question || this.isLoading) return;
 
-      this.addMessage(question, "user");
-      this.messageInput.value = "";
-      this.handleInputChange();
+    // 1. UI 즉시 업데이트
+    this.addMessage(question, "user");
+    this.messageInput.value = "";
+    this.handleInputChange();
 
-      this.isLoading = true;
-      this.sendBtn.disabled = true;
-      this.showTypingIndicator();
+    this.isLoading = true;
+    this.sendBtn.disabled = true;
+    this.showTypingIndicator();
 
-      try {
+    try {
+        // 2. 채팅방이 없으면 즉시 생성 (AI 답변 기다리지 않음)
+        if (!SidebarManager.currentRoomId) {
+            const newRoom = await ChatAPI.createRoom();
+            SidebarManager.currentRoomId = newRoom.id;
+            
+            // URL 파라미터 업데이트 (새로고침 시 유지용)
+            const newUrl = `${window.location.pathname}?id=${newRoom.id}`;
+            window.history.pushState({ path: newUrl }, '', newUrl);
+            
+            // 사이드바에 '새 채팅'이 즉시 나타나게 함
+            await SidebarManager.fetchAndRenderRooms();
+        }
+
+        // 3. 유저 질문을 DB에 먼저 저장 (이때 백엔드에서 제목 생성 트리거)
+        await ChatAPI.updateRoom(SidebarManager.currentRoomId, question, "user");
+
+        // 4. AI 답변 가져오기
         const answer = await ChatAPI.askQuestion(question);
         
         this.hideTypingIndicator();
         this.addMessage(answer, "ai");
 
-        // 방이 없으면 새 방 만들어서 연결함
-        if (!SidebarManager.currentRoomId) {
-          const newRoom = await ChatAPI.createRoom();
-          SidebarManager.currentRoomId = newRoom.id;
-        }
-
-        await ChatAPI.updateRoom(SidebarManager.currentRoomId, question, "user");
+        // 5. AI 답변 DB 저장
         await ChatAPI.updateRoom(SidebarManager.currentRoomId, answer, "assistant");
 
-        SidebarManager.fetchAndRenderRooms();
+        // 6. 제목이 바뀌었을 것이므로 사이드바 최종 업데이트
+        await SidebarManager.fetchAndRenderRooms();
 
-      } catch (error){
+    } catch (error) {
+        console.error("Error:", error);
         this.hideTypingIndicator();
-        this.addMessage(error.message || "오류가 발생했습니다. 다시 시도해주세요.", "ai");
-      } finally {
+        this.addMessage("오류가 발생했습니다. 다시 시도해주세요.", "ai");
+    } finally {
         this.isLoading = false;
         this.handleInputChange();
         this.messageInput.focus();
-      }
-    },
-
+    }
+},
     addMessage(text, type, animate = true){
       this.emptyState.classList.add("hidden");
       
